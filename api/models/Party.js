@@ -8,7 +8,6 @@ const Party = db.define('party', {
     validate: {
       min: 1,
       max: 64,
-      isAlphanumeric: true,
     },
   },
 
