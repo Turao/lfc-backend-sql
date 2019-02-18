@@ -1,8 +1,8 @@
 const db = require('../../db/db');
 
-const User = require('./User');
-const Statement = require('./Statement');
-const Organization = require('./Organization');
+const User = require('./user');
+const Statement = require('./statement');
+const Organization = require('./organization');
 
 const Event = db.define('event', {
   name: {
@@ -11,15 +11,12 @@ const Event = db.define('event', {
     validate: {
       min: 1,
       max: 64,
-      isAlphanumeric: true,
     },
   },
 
   date: {
     type: db.Sequelize.DATE,
-    validate: {
-      isAfter: Date.now(),
-    },
+    defaultValue: Date.now(),
   },
 
 });

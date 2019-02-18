@@ -1,5 +1,5 @@
 const db = require('../../db/db');
-const User = require('./User');
+const User = require('./user');
 
 const Party = db.define('party', {
   name: {

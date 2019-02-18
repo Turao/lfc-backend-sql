@@ -1,4 +1,4 @@
-const PartyModel = require('../models/Party');
+const PartyModel = require('../models/party');
 
 const PartyController = {
   getAll: async (_, res) => {

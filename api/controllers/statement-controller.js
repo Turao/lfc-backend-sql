@@ -1,25 +1,25 @@
-const UserModel = require('../models/User');
+const StatementModel = require('../models/statement');
 
-const UserController = {
+const StatementController = {
   getAll: async (_, res) => {
-    const users = await UserModel.findAll();
-    res.json(users);
+    const statements = await StatementModel.findAll();
+    res.json(statements);
   },
 
   get: async (req, res) => {
     const { id } = req.params;
-    const user = await UserModel.findById(id);
-    if (user) {
-      res.json(user);
+    const statement = await StatementModel.findById(id);
+    if (statement) {
+      res.json(statement);
     } else {
       res.sendStatus(404); // not found
     }
   },
 
   create: async (req, res) => {
-    const { user } = req.body;
+    const { statement } = req.body;
     try {
-      const created = await UserModel.create(user);
+      const created = await StatementModel.create(statement);
       res.json(created);
     } catch (error) {
       console.error(error);
@@ -28,9 +28,9 @@ const UserController = {
   },
 
   update: async (req, res) => {
-    const { user } = req.body;
+    const { statement } = req.body;
     try {
-      const updated = await UserModel.update(user, {
+      const updated = await StatementModel.update(statement, {
         where: {
           id: req.params.id,
         },
@@ -45,7 +45,7 @@ const UserController = {
 
   destroy: async (req, res) => {
     const { id } = req.params;
-    const found = await UserModel.findById(id);
+    const found = await StatementModel.findById(id);
     if (found) {
       try {
         const destroyed = await found.destroy();
@@ -60,4 +60,4 @@ const UserController = {
   },
 };
 
-module.exports = UserController;
+module.exports = StatementController;

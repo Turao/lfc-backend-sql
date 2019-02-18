@@ -1,5 +1,5 @@
 const db = require('../../db/db');
-const Event = require('./Event');
+const Event = require('./event');
 
 const Organization = db.define('organization', {
   name: {
@@ -8,7 +8,6 @@ const Organization = db.define('organization', {
     validate: {
       min: 1,
       max: 64,
-      isAlphanumeric: true,
     },
   },
 

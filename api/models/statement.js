@@ -1,7 +1,7 @@
 const db = require('../../db/db');
-const User = require('./User');
-const Event = require('./Event');
-const FactCheck = require('./FactCheck');
+const User = require('./user');
+const Event = require('./event');
+const FactCheck = require('./factcheck');
 
 const Statement = db.define('statement', {
   content: {
@@ -10,15 +10,12 @@ const Statement = db.define('statement', {
     validate: {
       min: 10,
       max: 256,
-      isAlphanumeric: true,
     },
   },
 
   date: {
     type: db.Sequelize.DATE,
-    validate: {
-      defaultValue: Date.now(),
-    },
+    defaultValue: Date.now(),
   },
 
 });

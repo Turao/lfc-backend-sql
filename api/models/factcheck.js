@@ -1,7 +1,7 @@
 const db = require('../../db/db');
 
-const User = require('./User');
-const Statement = require('./Statement');
+const User = require('./user');
+const Statement = require('./statement');
 
 const FactCheck = db.define('factcheck', {
   comment: {
@@ -10,7 +10,6 @@ const FactCheck = db.define('factcheck', {
     validate: {
       min: 10,
       max: 256,
-      isAlphanumeric: true,
     },
   },
 
