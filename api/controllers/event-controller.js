@@ -11,7 +11,9 @@ const EventController = {
 
   get: async (req, res) => {
     const { id } = req.params;
-    const event = await EventModel.findById(id);
+    const event = await EventModel.findByPk(id, {
+      include: ['organization', 'moderators', 'statements'],
+    });
     if (event) {
       res.json(event);
     } else {
@@ -48,7 +50,7 @@ const EventController = {
 
   destroy: async (req, res) => {
     const { id } = req.params;
-    const found = await EventModel.findById(id);
+    const found = await EventModel.findByPk(id);
     if (found) {
       try {
         const destroyed = await found.destroy();

@@ -11,7 +11,7 @@ const UserController = {
 
   get: async (req, res) => {
     const { id } = req.params;
-    const user = await UserModel.findById(id);
+    const user = await UserModel.findByPk(id);
     if (user) {
       res.json(user);
     } else {
@@ -50,7 +50,7 @@ const UserController = {
 
   destroy: async (req, res) => {
     const { id } = req.params;
-    const found = await UserModel.findById(id);
+    const found = await UserModel.findByPk(id);
     if (found) {
       try {
         const destroyed = await found.destroy();

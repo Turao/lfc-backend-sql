@@ -11,7 +11,9 @@ const StatementController = {
 
   get: async (req, res) => {
     const { id } = req.params;
-    const statement = await StatementModel.findById(id);
+    const statement = await StatementModel.findByPk(id, {
+      include: ['politician', 'event', 'factchecks'],
+    });
     if (statement) {
       res.json(statement);
     } else {
@@ -48,7 +50,7 @@ const StatementController = {
 
   destroy: async (req, res) => {
     const { id } = req.params;
-    const found = await StatementModel.findById(id);
+    const found = await StatementModel.findByPk(id);
     if (found) {
       try {
         const destroyed = await found.destroy();

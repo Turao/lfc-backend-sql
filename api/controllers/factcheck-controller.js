@@ -11,7 +11,9 @@ const FactCheckController = {
 
   get: async (req, res) => {
     const { id } = req.params;
-    const factcheck = await FactCheckModel.findById(id);
+    const factcheck = await FactCheckModel.findByPk(id, {
+      include: ['statement', 'checker', 'moderator'],
+    });
     if (factcheck) {
       res.json(factcheck);
     } else {
@@ -48,7 +50,7 @@ const FactCheckController = {
 
   destroy: async (req, res) => {
     const { id } = req.params;
-    const found = await FactCheckModel.findById(id);
+    const found = await FactCheckModel.findByPk(id);
     if (found) {
       try {
         const destroyed = await found.destroy();

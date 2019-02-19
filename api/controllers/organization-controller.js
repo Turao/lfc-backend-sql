@@ -11,7 +11,9 @@ const OrganizationController = {
 
   get: async (req, res) => {
     const { id } = req.params;
-    const organization = await OrganizationModel.findById(id);
+    const organization = await OrganizationModel.findByPk(id, {
+      include: ['events'],
+    });
     if (organization) {
       res.json(organization);
     } else {
@@ -48,7 +50,7 @@ const OrganizationController = {
 
   destroy: async (req, res) => {
     const { id } = req.params;
-    const found = await OrganizationModel.findById(id);
+    const found = await OrganizationModel.findByPk(id);
     if (found) {
       try {
         const destroyed = await found.destroy();

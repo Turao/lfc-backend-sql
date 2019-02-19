@@ -11,7 +11,9 @@ const PartyController = {
 
   get: async (req, res) => {
     const { id } = req.params;
-    const party = await PartyModel.findById(id);
+    const party = await PartyModel.findByPk(id, {
+      include: ['politicians'],
+    });
     if (party) {
       res.json(party);
     } else {
@@ -48,7 +50,7 @@ const PartyController = {
 
   destroy: async (req, res) => {
     const { id } = req.params;
-    const found = await PartyModel.findById(id);
+    const found = await PartyModel.findByPk(id);
     if (found) {
       try {
         const destroyed = await found.destroy();
