@@ -1,0 +1,365 @@
+{
+    "tables": {
+        "events": {
+            "tableName": "events",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "name": {
+                    "allowNull": false,
+                    "validate": {
+                        "min": 1,
+                        "max": 64
+                    },
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "date": {
+                    "defaultValue": {
+                        "value": 1550566305745
+                    },
+                    "field": "date",
+                    "seqType": "Sequelize.DATE"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "organizationId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "organizations",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "organizationId",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "factchecks": {
+            "tableName": "factchecks",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "comment": {
+                    "allowNull": false,
+                    "validate": {
+                        "min": 10,
+                        "max": 256
+                    },
+                    "field": "comment",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "source": {
+                    "allowNull": false,
+                    "validate": {
+                        "min": 10,
+                        "max": 256,
+                        "isUrl": true
+                    },
+                    "field": "source",
+                    "seqType": "Sequelize.STRING"
+                },
+                "veracity": {
+                    "field": "veracity",
+                    "seqType": "Sequelize.ENUM('true', 'false', 'partial')"
+                },
+                "verifiedByModerator": {
+                    "defaultValue": {
+                        "value": false
+                    },
+                    "field": "verifiedByModerator",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "checkerId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "users",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "checkerId",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "statementId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "statements",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "statementId",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "moderatorId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "users",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "moderatorId",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "organizations": {
+            "tableName": "organizations",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "name": {
+                    "allowNull": false,
+                    "validate": {
+                        "min": 1,
+                        "max": 64
+                    },
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "parties": {
+            "tableName": "parties",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "name": {
+                    "allowNull": false,
+                    "validate": {
+                        "min": 1,
+                        "max": 64
+                    },
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "abbreviation": {
+                    "allowNull": false,
+                    "validate": {
+                        "min": 1,
+                        "max": 64,
+                        "isAlpha": true
+                    },
+                    "field": "abbreviation",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "statements": {
+            "tableName": "statements",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "content": {
+                    "allowNull": false,
+                    "validate": {
+                        "min": 10,
+                        "max": 256
+                    },
+                    "field": "content",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "date": {
+                    "defaultValue": {
+                        "value": 1550566305756
+                    },
+                    "field": "date",
+                    "seqType": "Sequelize.DATE"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "eventId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "events",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "eventId",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "politicianId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "users",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "politicianId",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "users": {
+            "tableName": "users",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "username": {
+                    "allowNull": false,
+                    "validate": {
+                        "min": 8,
+                        "max": 64,
+                        "isAlphanumeric": true
+                    },
+                    "field": "username",
+                    "seqType": "Sequelize.STRING"
+                },
+                "firstName": {
+                    "allowNull": false,
+                    "validate": {
+                        "min": 1,
+                        "max": 64,
+                        "isAlpha": true
+                    },
+                    "field": "firstName",
+                    "seqType": "Sequelize.STRING"
+                },
+                "lastName": {
+                    "allowNull": false,
+                    "validate": {
+                        "min": 1,
+                        "max": 64,
+                        "isAlpha": true
+                    },
+                    "field": "lastName",
+                    "seqType": "Sequelize.STRING"
+                },
+                "email": {
+                    "allowNull": false,
+                    "unique": true,
+                    "validate": {
+                        "isEmail": true,
+                        "max": 64
+                    },
+                    "field": "email",
+                    "seqType": "Sequelize.STRING"
+                },
+                "password": {
+                    "field": "password",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "eventId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "events",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "eventId",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "partyId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "parties",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "partyId",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        }
+    },
+    "revision": 5
+}

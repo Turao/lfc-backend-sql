@@ -1,24 +1,21 @@
-const db = require('../../database/db');
-const Event = require('./event');
+'use strict';
 
-const Organization = db.define('organization', {
-  name: {
-    type: db.Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      min: 1,
-      max: 64,
+module.exports = (sequelize, DataTypes) => {
+  const organization = sequelize.define('organization', {
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        min: 1,
+        max: 64,
+      },
     },
-  },
+    
+  });
 
-});
+  organization.associate = (models) => {
+    models.organization.hasMany(models.event);
+  };
 
-Organization.associate = (models) => {
-  Organization.hasMany(models.Event);
+  return organization;
 };
-
-// force will drop the table if it already exists!
-// Table created
-Organization.sync({ force: true });
-
-module.exports = Organization;

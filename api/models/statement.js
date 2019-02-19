@@ -1,11 +1,9 @@
-const db = require('../../database/db');
-const User = require('./user');
-const Event = require('./event');
-const FactCheck = require('./factcheck');
+'use strict';
 
-const Statement = db.define('statement', {
+module.exports = (sequelize, DataTypes) => {
+  const statement = sequelize.define('statement', {
   content: {
-    type: db.Sequelize.TEXT,
+    type: DataTypes.TEXT,
     allowNull: false,
     validate: {
       min: 10,
@@ -14,20 +12,28 @@ const Statement = db.define('statement', {
   },
 
   date: {
-    type: db.Sequelize.DATE,
+    type: DataTypes.DATE,
     defaultValue: Date.now(),
   },
-
+  
 });
 
-Statement.associate = (models) => {
-  Statement.belongsTo(models.User, { as: 'politician' });
-  Statement.belongsTo(models.Event);
-  Statement.hasMany(models.FactCheck);
+statement.associate = (models) => {
+  models.statement.belongsTo(models.user, {
+    as: 'politician',
+    onDelete: 'CASCADE',
+    foreignKey: {
+      allowNull: false,
+    }
+  });
+  models.statement.belongsTo(models.event, {
+    onDelete: 'CASCADE',
+    foreignKey: {
+      allowNull: false,
+    }
+  });
+  models.statement.hasMany(models.factcheck);
 };
 
-// force will drop the table if it already exists!
-// Table created
-Statement.sync({ force: true });
-
-module.exports = Statement;
+return statement
+};

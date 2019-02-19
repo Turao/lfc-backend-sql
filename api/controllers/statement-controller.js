@@ -1,4 +1,7 @@
-const StatementModel = require('../models/statement');
+'use strict';
+
+const models = require('../models/');
+const StatementModel = models.statement;
 
 const StatementController = {
   getAll: async (_, res) => {

@@ -1,34 +1,31 @@
-const db = require('../../database/db');
-const User = require('./user');
+'use strict';
 
-const Party = db.define('party', {
-  name: {
-    type: db.Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      min: 1,
-      max: 64,
+module.exports = (sequelize, DataTypes) => {
+  const party = sequelize.define('party', {
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        min: 1,
+        max: 64,
+      },
     },
-  },
-
-  abbreviation: {
-    type: db.Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      min: 1,
-      max: 64,
-      isAlpha: true,
+    
+    abbreviation: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        min: 1,
+        max: 64,
+        isAlpha: true,
+      },
     },
-  },
+    
+  });
 
-});
+  party.associate = (models) => {
+    models.party.hasMany(models.user, { as: 'politicians' });
+  };
 
-Party.associate = (models) => {
-  Party.hasMany(models.User, { as: 'politicians' });
+  return party;
 };
-
-// force will drop the table if it already exists!
-// Table created
-Party.sync({ force: true });
-
-module.exports = Party;

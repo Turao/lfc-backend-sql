@@ -1,4 +1,7 @@
-const EventModel = require('../models/event');
+'use strict';
+
+const models = require('../models/');
+const EventModel = models.event;
 
 const EventController = {
   getAll: async (_, res) => {

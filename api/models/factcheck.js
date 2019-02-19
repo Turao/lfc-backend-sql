@@ -1,48 +1,60 @@
-const db = require('../../database/db');
+'use strict';
 
-const User = require('./user');
-const Statement = require('./statement');
-
-const FactCheck = db.define('factcheck', {
-  comment: {
-    type: db.Sequelize.TEXT,
-    allowNull: false,
-    validate: {
-      min: 10,
-      max: 256,
+module.exports = (sequelize, DataTypes) => {
+  const factcheck = sequelize.define('factcheck', {
+    comment: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      validate: {
+        min: 10,
+        max: 256,
+      },
     },
-  },
-
-  source: {
-    type: db.Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      min: 10,
-      max: 256,
-      isUrl: true,
+    
+    source: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        min: 10,
+        max: 256,
+        isUrl: true,
+      },
     },
-  },
+    
+    veracity: {
+      type: DataTypes.ENUM,
+      values: ['true', 'false', 'partial'],
+    },
+    
+    verifiedByModerator: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+    
+  });
 
-  veracity: {
-    type: db.Sequelize.ENUM,
-    values: ['true', 'false', 'partial'],
-  },
+  factcheck.associate = (models) => {
+    models.factcheck.belongsTo(models.user, {
+      as: 'checker',
+      onDelete: 'CASCADE',
+      foreignKey: {
+        allowNull: false,
+      }
+    });
+    models.factcheck.belongsTo(models.statement, {
+      onDelete: 'CASCADE',
+      foreignKey: {
+        allowNull: false,
+      }
+    });
+    models.factcheck.belongsTo(models.user, {
+      as: 'moderator',
+      onDelete: 'CASCADE',
+      foreignKey: {
+        allowNull: true,
+      }
+    });
+  };
 
-  verifiedByModerator: {
-    type: db.Sequelize.BOOLEAN,
-    defaultValue: false,
-  },
-
-});
-
-FactCheck.associate = (models) => {
-  FactCheck.belongsTo(models.User, { as: 'checker' });
-  FactCheck.belongsTo(models.Statement);
-  FactCheck.belongsTo(models.User, { as: 'moderator' });
+  return factcheck;
 };
-
-// force will drop the table if it already exists!
-// Table created
-FactCheck.sync({ force: true });
-
-module.exports = FactCheck;

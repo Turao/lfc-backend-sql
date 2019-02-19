@@ -1,4 +1,7 @@
-const OrganizationModel = require('../models/organization');
+'use strict';
+
+const models = require('../models/');
+const OrganizationModel = models.organization;
 
 const OrganizationController = {
   getAll: async (_, res) => {

@@ -1,34 +1,33 @@
-const db = require('../../database/db');
+'use strict';
 
-const User = require('./user');
-const Statement = require('./statement');
-const Organization = require('./organization');
-
-const Event = db.define('event', {
-  name: {
-    type: db.Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      min: 1,
-      max: 64,
+module.exports = (sequelize, DataTypes) => {
+  const event = sequelize.define('event', {
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        min: 1,
+        max: 64,
+      },
     },
-  },
+    
+    date: {
+      type: DataTypes.DATE,
+      defaultValue: Date.now(),
+    },
+    
+  });
 
-  date: {
-    type: db.Sequelize.DATE,
-    defaultValue: Date.now(),
-  },
+  event.associate = (models) => {
+    models.event.belongsTo(models.organization, {
+      onDelete: 'CASCADE',
+      foreignKey: {
+        allowNull: false,
+      }
+    });
+    models.event.hasMany(models.user, { as: 'moderators' });
+    models.event.hasMany(models.statement);
+  };
 
-});
-
-Event.associate = (models) => {
-  Event.belongsTo(models.Organization);
-  Event.hasMany(models.User, { as: 'moderators' });
-  Event.hasMany(models.Statement);
+  return event;
 };
-
-// force will drop the table if it already exists!
-// Table created
-Event.sync({ force: true });
-
-module.exports = Event;

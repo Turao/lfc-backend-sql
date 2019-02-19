@@ -3,7 +3,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
-const db = require('./database/db');
 const apiRouter = require('./routes/api-router');
 
 const app = express();
@@ -15,13 +14,5 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/', apiRouter);
-
-db.authenticate()
-  .then(() => {
-    console.log('Connection has ben established succesfully.');
-  })
-  .catch((err) => {
-    console.error('Unable to connect to the database', err);
-  });
 
 module.exports = app;

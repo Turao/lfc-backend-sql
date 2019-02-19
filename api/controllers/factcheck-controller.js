@@ -1,4 +1,7 @@
-const FactCheckModel = require('../models/factcheck');
+'use strict';
+
+const models = require('../models/');
+const FactCheckModel = models.factcheck;
 
 const FactCheckController = {
   getAll: async (_, res) => {

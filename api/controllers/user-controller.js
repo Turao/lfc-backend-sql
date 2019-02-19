@@ -1,6 +1,7 @@
 'use strict';
 
-const UserModel = require('../models/user');
+const models = require('../models/');
+const UserModel = models.user;
 
 const UserController = {
   getAll: async (_, res) => {
