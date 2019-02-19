@@ -44,6 +44,17 @@ const User = db.define('user', {
   password: {
     type: db.Sequelize.STRING,
   },
+},
+{
+  defaultScope: {
+    attributes: { exclude: ['password'] },
+  },
+
+  scopes: {
+    withPassword: {
+      attributes: {},
+    }
+  }
 });
 
 // force will drop the table if it already exists!

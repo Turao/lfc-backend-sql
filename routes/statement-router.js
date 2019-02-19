@@ -1,12 +1,16 @@
 const express = require('express');
 const router = express.Router();
 
+const AuthController = require('../api/controllers/auth-controller');
 const StatementController = require('../api/controllers/statement-controller');
 
-// factchecks
+// statements
 router.get('/statements/', StatementController.getAll);
 
-// factcheck
+// make sure user is authorized to use endpoint
+router.use('/statement/', AuthController.authorize);
+
+// statement
 router.get('/statement/:id', StatementController.get);
 router.post('/statement/', StatementController.create);
 router.put('/statement/:id', StatementController.update);

@@ -19,13 +19,15 @@ const AuthController = {
   login: async (req, res) => {
     try {
       const { user } = req.body; 
-      const userFound = await UserModel.findOne({
+      const userFound = await UserModel.scope('withPassword').findOne({
         where: {
           email: user.email,
-        }});
+        },
+      });
       const isSamePassword = await bcrypt.compare(user.password, userFound.password);
 
-      delete userFound.password;
+      // do not send the password back to the user!
+      userFound.password = undefined;
 
       if (isSamePassword) {
         const superPrivateSecretKey = 'serversecretkey';
@@ -36,7 +38,7 @@ const AuthController = {
 
         res.json({
           token,
-          userFound,
+          user: userFound,
         })
       } else {
         res.sendStatus(401); // unauthorized access

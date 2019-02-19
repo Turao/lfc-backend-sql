@@ -1,10 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
+const AuthController = require('../api/controllers/auth-controller');
 const PartyController = require('../api/controllers/party-controller');
 
 // parties
 router.get('/parties/', PartyController.getAll);
+
+// make sure user is authorized to use endpoint
+router.use('/party/', AuthController.authorize);
 
 // party
 router.get('/party/:id', PartyController.get);

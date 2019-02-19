@@ -1,3 +1,5 @@
+'use strict';
+
 const UserModel = require('../models/user');
 
 const UserController = {
@@ -20,6 +22,8 @@ const UserController = {
     const { user } = req.body;
     try {
       const created = await UserModel.create(user);
+      // override password bc model scope does not work with create
+      created.password = undefined;
       res.json(created);
     } catch (error) {
       console.error(error);

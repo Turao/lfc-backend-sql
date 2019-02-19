@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+const AuthRouter = require('./auth-router');
 const EventRouter = require('./event-router');
 const FactCheckRouter = require('./factcheck-router');
 const OrganizationRouter = require('./organization-router');
@@ -8,6 +9,7 @@ const PartyRouter = require('./party-router');
 const StatementRouter = require('./statement-router');
 const UserRouter = require('./user-router');
 
+router.use('/', AuthRouter);
 router.use('/', EventRouter);
 router.use('/', FactCheckRouter);
 router.use('/', OrganizationRouter);

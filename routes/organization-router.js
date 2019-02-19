@@ -1,12 +1,16 @@
 const express = require('express');
 const router = express.Router();
 
+const AuthController = require('../api/controllers/auth-controller');
 const OrganizationController = require('../api/controllers/organization-controller');
 
-// factchecks
+// organizations
 router.get('/organizations/', OrganizationController.getAll);
 
-// factcheck
+// make sure user is authorized to use endpoint
+router.use('/organization/', AuthController.authorize);
+
+// organization
 router.get('/organization/:id', OrganizationController.get);
 router.post('/organization/', OrganizationController.create);
 router.put('/organization/:id', OrganizationController.update);
