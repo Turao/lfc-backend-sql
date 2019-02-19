@@ -1,4 +1,4 @@
-const db = require('../../db/db');
+const db = require('../../database/db');
 const Event = require('./event');
 
 const Organization = db.define('organization', {
