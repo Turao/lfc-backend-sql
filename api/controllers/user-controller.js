@@ -1,5 +1,6 @@
 'use strict';
 
+const sequelize = require('sequelize');
 const models = require('../models/');
 const UserModel = models.user;
 
@@ -28,7 +29,11 @@ const UserController = {
       res.status(201).json(created);
     } catch (error) {
       console.error(error);
-      res.sendStatus(500); // internal error
+      if (error instanceof sequelize.ValidationError) {
+        res.sendStatus(400); // bad request
+      } else {
+        res.sendStatus(500); // internal error
+      }
     }
   },
 
@@ -44,7 +49,11 @@ const UserController = {
       res.json(updated);
     } catch (error) {
       console.error(error);
-      res.sendStatus(500); // internal error
+      if (error instanceof sequelize.ValidationError) {
+        res.sendStatus(400); // bad request
+      } else {
+        res.sendStatus(500); // internal error
+      }
     }
   },
 
