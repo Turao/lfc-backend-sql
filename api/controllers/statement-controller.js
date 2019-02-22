@@ -25,7 +25,7 @@ const StatementController = {
     const { statement } = req.body;
     try {
       const created = await StatementModel.create(statement);
-      res.json(created);
+      res.status(201).json(created);
     } catch (error) {
       console.error(error);
       res.sendStatus(500); // internal error

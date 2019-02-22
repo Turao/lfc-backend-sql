@@ -25,7 +25,7 @@ const PartyController = {
     const { party } = req.body;
     try {
       const created = await PartyModel.create(party);
-      res.json(created);
+      res.status(201).json(created);
     } catch (error) {
       console.error(error);
       res.sendStatus(500); // internal error

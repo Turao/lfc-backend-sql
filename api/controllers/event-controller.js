@@ -25,7 +25,7 @@ const EventController = {
     const { event } = req.body;
     try {
       const created = await EventModel.create(event);
-      res.json(created);
+      res.status(201).json(created);
     } catch (error) {
       console.error(error);
       res.sendStatus(500); // internal error

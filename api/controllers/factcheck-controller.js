@@ -25,7 +25,7 @@ const FactCheckController = {
     const { factcheck } = req.body;
     try {
       const created = await FactCheckModel.create(factcheck);
-      res.json(created);
+      res.status(201).json(created);
     } catch (error) {
       console.error(error);
       res.sendStatus(500); // internal error

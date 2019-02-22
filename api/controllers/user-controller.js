@@ -25,7 +25,7 @@ const UserController = {
       const created = await UserModel.create(user);
       // override password bc model scope does not work with create
       created.password = undefined;
-      res.json(created);
+      res.status(201).json(created);
     } catch (error) {
       console.error(error);
       res.sendStatus(500); // internal error

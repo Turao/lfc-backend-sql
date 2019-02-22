@@ -6,7 +6,7 @@ const EventController = require('../api/controllers/event-controller');
 
 // events
 router.get('/events/', EventController.getAll);
-
+router.get('/events/latest/', EventController.getAll);
 
 // make sure user is authorized to use endpoint
 router.use('/event/', AuthController.authorize);
