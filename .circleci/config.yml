@@ -37,15 +37,13 @@ jobs:
           command: npm install
 
       - run:
-          name: create tables
-          command: node_modules/.bin/sequelize db:migrate
-      
-      - run:
-          name: seed
-          command: node_modules/.bin/sequelize db:seed:all
+          name: db - setup
+          command: |
+            node_modules/.bin/sequelize db:migrate
+            node_modules/.bin/sequelize db:seed:all
 
       - run:
-          name: unseed
+          name: db - unseed
           command: node_modules/.bin/sequelize db:seed:undo:all
 
 workflows:
