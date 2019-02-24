@@ -1,0 +1,56 @@
+version: 2
+
+jobs:
+
+  build:
+    docker:
+      # language image
+      - image: circleci/node:latest
+
+    steps:
+      - checkout
+      - run:
+          name: npm install
+          command: npm install
+
+
+  test:
+    docker:
+      # language image (primary container)
+      - image: circleci/node:latest
+        environment:
+          PG_HOST: localhost
+          PG_USER: psuser
+          PG_DB: database
+
+      # service image (secondary container)
+      - image: circleci/postgres
+        environment:
+          POSTGRES_USER: psuser
+          POSTGRES_DB: database
+
+    steps:
+      - checkout
+
+      - run:
+          name: npm install
+          command: npm install
+
+      - run:
+          name: create tables
+          command: node_modules/.bin/sequelize db:migrate
+      
+      - run:
+          name: seed
+          command: node_modules/.bin/sequelize db:seed:all
+
+      - run:
+          name: unseed
+          command: node_modules/.bin/sequelize db:seed:undo:all
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test
