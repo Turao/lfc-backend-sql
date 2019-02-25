@@ -40,11 +40,14 @@ jobs:
           name: db - setup
           command: |
             node_modules/.bin/sequelize db:migrate
-            node_modules/.bin/sequelize db:seed:all
-
+      
       - run:
-          name: db - unseed
-          command: node_modules/.bin/sequelize db:seed:undo:all
+          name: npm test
+          command: npm test
+
+      # - run:
+      #     name: db - unseed
+      #     command: node_modules/.bin/sequelize db:seed:undo:all
 
 workflows:
   version: 2
