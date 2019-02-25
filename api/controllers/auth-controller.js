@@ -20,7 +20,7 @@ const AuthController = {
 
   login: async (req, res) => {
     try {
-      const { user } = req.body; 
+      const { user } = req.body;
       const userFound = await UserModel.scope('withPassword').findOne({
         where: {
           email: user.email,
@@ -46,6 +46,7 @@ const AuthController = {
         res.sendStatus(401); // unauthorized access
       }
     } catch (error) {
+      console.error(error);
       res.sendStatus(500); // internal error
     }
   },

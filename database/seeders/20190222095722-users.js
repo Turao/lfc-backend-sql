@@ -1,4 +1,5 @@
 'use strict';
+const bcrypt = require('bcrypt');
 
 const users = [
   {
@@ -53,8 +54,14 @@ const users = [
 ];
 
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-      return queryInterface.bulkInsert('users', users, {});
+  up: async (queryInterface, Sequelize) => {
+      const users_with_hashed_passwords = await Promise.all(
+        users.map(async (user) => {
+          user.password = await bcrypt.hash(user.password, 10);
+          return user;
+        })
+      );
+      return queryInterface.bulkInsert('users', users_with_hashed_passwords, {});
   },
 
   down: (queryInterface, Sequelize) => {
