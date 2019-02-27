@@ -57,7 +57,7 @@ const users = [
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return UserModel.bulkCreate(users, {});
+    return UserModel.bulkCreate(users, { individualHooks: true });
   },
 
   down: (queryInterface, Sequelize) => {

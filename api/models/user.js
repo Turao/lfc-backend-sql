@@ -1,6 +1,6 @@
 'use strict';
 
-const bcrypt = await require('bcrypt');
+const bcrypt = require('bcrypt');
 
 module.exports = function (sequelize, DataTypes) {
   const user = sequelize.define('user', {
@@ -63,8 +63,7 @@ module.exports = function (sequelize, DataTypes) {
   const hashPasswordHook = async function (instance, _) {
     if(instance.changed('password')) {
       instance.password = await bcrypt.hash(instance.password, 10);
-      await console.log(hash, instance.password);
-    }
+    };
   };
   
   user.beforeCreate(hashPasswordHook);
