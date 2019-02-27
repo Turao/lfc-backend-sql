@@ -21,7 +21,7 @@
                 },
                 "date": {
                     "defaultValue": {
-                        "value": 1550566320566
+                        "value": 1551258502422
                     },
                     "field": "date",
                     "seqType": "Sequelize.DATE"
@@ -37,12 +37,12 @@
                     "seqType": "Sequelize.DATE"
                 },
                 "organizationId": {
-                    "allowNull": true,
+                    "allowNull": false,
                     "references": {
                         "model": "organizations",
                         "key": "id"
                     },
-                    "onDelete": "SET NULL",
+                    "onDelete": "CASCADE",
                     "onUpdate": "CASCADE",
                     "field": "organizationId",
                     "seqType": "Sequelize.INTEGER"
@@ -101,23 +101,23 @@
                     "seqType": "Sequelize.DATE"
                 },
                 "checkerId": {
-                    "allowNull": true,
+                    "allowNull": false,
                     "references": {
                         "model": "users",
                         "key": "id"
                     },
-                    "onDelete": "SET NULL",
+                    "onDelete": "CASCADE",
                     "onUpdate": "CASCADE",
                     "field": "checkerId",
                     "seqType": "Sequelize.INTEGER"
                 },
                 "statementId": {
-                    "allowNull": true,
+                    "allowNull": false,
                     "references": {
                         "model": "statements",
                         "key": "id"
                     },
-                    "onDelete": "SET NULL",
+                    "onDelete": "CASCADE",
                     "onUpdate": "CASCADE",
                     "field": "statementId",
                     "seqType": "Sequelize.INTEGER"
@@ -128,7 +128,7 @@
                         "model": "users",
                         "key": "id"
                     },
-                    "onDelete": "SET NULL",
+                    "onDelete": "CASCADE",
                     "onUpdate": "CASCADE",
                     "field": "moderatorId",
                     "seqType": "Sequelize.INTEGER"
@@ -231,7 +231,7 @@
                 },
                 "date": {
                     "defaultValue": {
-                        "value": 1550566320579
+                        "value": 1551258502430
                     },
                     "field": "date",
                     "seqType": "Sequelize.DATE"
@@ -258,12 +258,12 @@
                     "seqType": "Sequelize.INTEGER"
                 },
                 "politicianId": {
-                    "allowNull": true,
+                    "allowNull": false,
                     "references": {
                         "model": "users",
                         "key": "id"
                     },
-                    "onDelete": "SET NULL",
+                    "onDelete": "CASCADE",
                     "onUpdate": "CASCADE",
                     "field": "politicianId",
                     "seqType": "Sequelize.INTEGER"
@@ -361,5 +361,5 @@
             "indexes": []
         }
     },
-    "revision": 6
+    "revision": 1
 }

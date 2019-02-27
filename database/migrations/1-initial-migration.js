@@ -16,8 +16,8 @@ var Sequelize = require('sequelize');
 
 var info = {
     "revision": 1,
-    "name": "user",
-    "created": "2019-02-19T08:51:03.228Z",
+    "name": "initial-migration",
+    "created": "2019-02-27T09:08:22.512Z",
     "comment": ""
 };
 
@@ -125,7 +125,7 @@ var migrationCommands = [{
                 "date": {
                     "type": Sequelize.DATE,
                     "field": "date",
-                    "defaultValue": 1550566263183
+                    "defaultValue": 1551258502422
                 },
                 "createdAt": {
                     "type": Sequelize.DATE,
@@ -141,12 +141,12 @@ var migrationCommands = [{
                     "type": Sequelize.INTEGER,
                     "field": "organizationId",
                     "onUpdate": "CASCADE",
-                    "onDelete": "SET NULL",
+                    "onDelete": "CASCADE",
                     "references": {
                         "model": "organizations",
                         "key": "id"
                     },
-                    "allowNull": true
+                    "allowNull": false
                 }
             },
             {}
@@ -268,7 +268,7 @@ var migrationCommands = [{
                 "date": {
                     "type": Sequelize.DATE,
                     "field": "date",
-                    "defaultValue": 1550566263195
+                    "defaultValue": 1551258502430
                 },
                 "createdAt": {
                     "type": Sequelize.DATE,
@@ -295,12 +295,12 @@ var migrationCommands = [{
                     "type": Sequelize.INTEGER,
                     "field": "politicianId",
                     "onUpdate": "CASCADE",
-                    "onDelete": "SET NULL",
+                    "onDelete": "CASCADE",
                     "references": {
                         "model": "users",
                         "key": "id"
                     },
-                    "allowNull": true
+                    "allowNull": false
                 }
             },
             {}
@@ -360,29 +360,29 @@ var migrationCommands = [{
                     "type": Sequelize.INTEGER,
                     "field": "checkerId",
                     "onUpdate": "CASCADE",
-                    "onDelete": "SET NULL",
+                    "onDelete": "CASCADE",
                     "references": {
                         "model": "users",
                         "key": "id"
                     },
-                    "allowNull": true
+                    "allowNull": false
                 },
                 "statementId": {
                     "type": Sequelize.INTEGER,
                     "field": "statementId",
                     "onUpdate": "CASCADE",
-                    "onDelete": "SET NULL",
+                    "onDelete": "CASCADE",
                     "references": {
                         "model": "statements",
                         "key": "id"
                     },
-                    "allowNull": true
+                    "allowNull": false
                 },
                 "moderatorId": {
                     "type": Sequelize.INTEGER,
                     "field": "moderatorId",
                     "onUpdate": "CASCADE",
-                    "onDelete": "SET NULL",
+                    "onDelete": "CASCADE",
                     "references": {
                         "model": "users",
                         "key": "id"
