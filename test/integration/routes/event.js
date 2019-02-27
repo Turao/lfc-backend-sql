@@ -10,12 +10,14 @@ const auth = require('./auth');
 chai.use(chaiHttp);
 
 
-describe('GET /users/', () => {
+describe('GET /events/', () => {
   before(async () => await truncate());
 
-  it('should return all users', async () => {
+  it('should return all events', async () => {
     const res = await chai.request(server)
-      .get('/users/')
+      .get('/events/')
+
+      console.log(res.body);
 
       res.should.have.status(200);
       res.should.be.json;
@@ -24,7 +26,7 @@ describe('GET /users/', () => {
 });
 
 
-describe('GET /user/1', () => {
+describe('GET /event/1', () => {
   let token = null;
 
   before(async () => {
@@ -34,9 +36,9 @@ describe('GET /user/1', () => {
     token = res.body.token;
   });
 
-  it('should return user of id 1', async () => {
+  it('should return event of id 1', async () => {
     const res = await chai.request(server)
-      .get('/user/1')
+      .get('/event/1')
       .set({ token });
 
     res.should.have.status(200);
@@ -46,7 +48,7 @@ describe('GET /user/1', () => {
 });
 
 
-describe('POST /user/', () => {
+describe('POST /event/', () => {
   let token = null;
 
   before(async () => {
@@ -56,12 +58,14 @@ describe('POST /user/', () => {
     token = res.body.token;
   });
 
-  it('should return 201 http code (created) and the created user object', async () => {
+  it('should return 201 http code (created) and the created event object', async () => {
     const res = await chai.request(server)
-      .post('/user/')
-      .send({ user: users[1] })
+      .post('/event/')
+      .send({ event: events[0] })
       .set({ token });
       
+      console.log(res.body);
+
       res.should.have.status(201);
       res.should.be.json;
       res.body.should.be.a('object');
@@ -69,7 +73,7 @@ describe('POST /user/', () => {
 });
 
 
-describe('PUT /user/1', () => {
+describe('PUT /event/1', () => {
   let token = null;
 
   before(async () => {
@@ -79,14 +83,16 @@ describe('PUT /user/1', () => {
     token = res.body.token;
   });
   
-  it('should return 200 http code and the updated user object', async () => {
-    const updated_user = users[0];
-    updated_user.email = 'updated@email.com';
+  it('should return 200 http code and the updated event object', async () => {
+    const updated_event = events[0];
+    updated_event.name = 'Updated Event Name';
     
     const res = await chai.request(server)
-      .put('/user/1')
-      .send({ user: updated_user })
+      .put('/event/1')
+      .send({ event: updated_event })
       .set({ token });
+
+      console.log(res.body);
 
       res.should.have.status(200);
       res.should.be.json;
@@ -94,8 +100,7 @@ describe('PUT /user/1', () => {
   })
 });
 
-
-describe('DELETE /user/1', () => {
+describe('DELETE /event/1', () => {
   let token = null;
 
   before(async () => {
@@ -107,7 +112,7 @@ describe('DELETE /user/1', () => {
   
   it('should return 200 http code', async () => {
     const res = await chai.request(server)
-      .delete('/user/1')
+      .delete('/event/1')
       .set({ token });
   
       res.should.have.status(200);

@@ -1,6 +1,8 @@
 'use strict';
 
-module.exports = (sequelize, DataTypes) => {
+const bcrypt = await require('bcrypt');
+
+module.exports = function (sequelize, DataTypes) {
   const user = sequelize.define('user', {
     username: {
       type: DataTypes.STRING,
@@ -57,6 +59,16 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   });
-
+  
+  const hashPasswordHook = async function (instance, _) {
+    if(instance.changed('password')) {
+      instance.password = await bcrypt.hash(instance.password, 10);
+      await console.log(hash, instance.password);
+    }
+  };
+  
+  user.beforeCreate(hashPasswordHook);
+  user.beforeUpdate(hashPasswordHook);
+  
   return user;
 };

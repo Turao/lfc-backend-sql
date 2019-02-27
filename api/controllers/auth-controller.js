@@ -9,9 +9,9 @@ const UserController = require('./user-controller');
 const AuthController = {
   signup: async (req, res) => {
     try {
-      const { user } = req.body;
-      const hash = await bcrypt.hash(user.password, 10);
-      req.body.user.password = hash;
+      // const { user } = req.body;
+      // const hash = await bcrypt.hash(user.password, 10);
+      // req.body.user.password = hash;
       UserController.create(req, res);
     } catch (error) {
       res.sendStatus(500); // internal error

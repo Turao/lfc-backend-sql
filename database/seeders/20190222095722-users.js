@@ -1,5 +1,7 @@
 'use strict';
-const bcrypt = require('bcrypt');
+
+const models = require('../../api/models');
+const UserModel = models.user;
 
 const users = [
   {
@@ -55,13 +57,7 @@ const users = [
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-      const users_with_hashed_passwords = await Promise.all(
-        users.map(async (user) => {
-          user.password = await bcrypt.hash(user.password, 10);
-          return user;
-        })
-      );
-      return queryInterface.bulkInsert('users', users_with_hashed_passwords, {});
+    return UserModel.bulkCreate(users, {});
   },
 
   down: (queryInterface, Sequelize) => {
