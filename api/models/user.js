@@ -60,14 +60,14 @@ module.exports = function (sequelize, DataTypes) {
     }
   });
   
-  const hashPasswordHook = async function (instance, _) {
+  const hashPassword = async function (instance, _) {
     if(instance.changed('password')) {
       instance.password = await bcrypt.hash(instance.password, 10);
     };
   };
   
-  user.beforeCreate(hashPasswordHook);
-  user.beforeUpdate(hashPasswordHook);
+  user.beforeCreate(hashPassword);
+  user.beforeUpdate(hashPassword);
   
   return user;
 };
