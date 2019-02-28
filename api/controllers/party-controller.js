@@ -45,8 +45,9 @@ const PartyController = {
           id: req.params.id,
         },
         returning: true,
+        plain: true
       });
-      res.json(updated);
+      res.json(updated[1]);
     } catch (error) {
       console.error(error);
       if (error instanceof sequelize.ValidationError) {

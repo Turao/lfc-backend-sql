@@ -6,30 +6,32 @@ const truncate = require('../../truncate');
 
 const auth = require('./auth');
 const users = require('../../fixtures/users');
-
-const organizations = require('../../fixtures/organizations');
-const { createOrganization } = require('./organization');
+const { createUser } = require('./user');
 
 const events = require('../../fixtures/events');
+const { createEvent } = require('./event');
+
+const statements = require('../../fixtures/statements');
 
 
 chai.use(chaiHttp);
 
-const createEvent = async (event, token) => {
-  await createOrganization(organizations[0], token);
+const createStatement = async (statement, token) => {
+  await createUser(users[1], token);
+  await createEvent(events[0], token);
   return chai.request(server)
-    .post('/event/')
-    .send({ event })
+    .post('/statement/')
+    .send({ statement })
     .set({ token });
 }
 
 
-describe('GET /events/', () => {
+describe('GET /statements/', () => {
   before(async () => await truncate());
 
-  it('should return all events', async () => {
+  it('should return all statements', async () => {
     const res = await chai.request(server)
-      .get('/events/')
+      .get('/statements/')
 
     res.should.have.status(200);
     res.should.be.json;
@@ -38,7 +40,7 @@ describe('GET /events/', () => {
 });
 
 
-describe('GET /event/1', () => {
+describe('GET /statement/1', () => {
   let token;
 
   before(async () => {
@@ -46,12 +48,12 @@ describe('GET /event/1', () => {
     await auth.signup(users[0]);
     const res = await auth.login(users[0]);
     token = res.body.token;
-    await createEvent(events[0], token);
+    await createStatement(statements[0], token);
   });
 
-  it('should return event of id 1', async () => {
+  it('should return statement of id 1', async () => {
     const res = await chai.request(server)
-      .get('/event/1')
+      .get('/statement/1')
       .set({ token });
 
     res.should.have.status(200);
@@ -61,7 +63,7 @@ describe('GET /event/1', () => {
 });
 
 
-describe('POST /event/', () => {
+describe('POST /statement/', () => {
   let token;
 
   before(async () => {
@@ -71,9 +73,9 @@ describe('POST /event/', () => {
     token = res.body.token;
   });
   
-  it('should return 201 http code (created) and the created event object', async () => {
-    const res = await createEvent(events[0], token);
-    
+  it('should return 201 http code (created) and the created statement object', async () => {
+    const res = await createStatement(statements[0], token);
+      
     res.should.have.status(201);
     res.should.be.json;
     res.body.should.be.a('object');
@@ -81,7 +83,7 @@ describe('POST /event/', () => {
 });
 
 
-describe('PUT /event/1', () => {
+describe('PUT /statement/1', () => {
   let token;
 
   before(async () => {
@@ -89,16 +91,16 @@ describe('PUT /event/1', () => {
     await auth.signup(users[0]);
     const res = await auth.login(users[0]);
     token = res.body.token;
-    await createEvent(events[0], token);
+    await createStatement(statements[0], token);
   });
   
-  it('should return 200 http code and the updated event object', async () => {
-    const updated_event = events[0];
-    updated_event.name = 'Updated Event Name';
+  it('should return 200 http code and the updated statement object', async () => {
+    const updated_statement = statements[0];
+    updated_statement.name = 'Updated Statement Name';
     
     const res = await chai.request(server)
-      .put('/event/1')
-      .send({ event: updated_event })
+      .put('/statement/1')
+      .send({ statement: updated_statement })
       .set({ token });
 
     res.should.have.status(200);
@@ -108,7 +110,7 @@ describe('PUT /event/1', () => {
 });
 
 
-describe('DELETE /event/1', () => {
+describe('DELETE /statement/1', () => {
   let token;
 
   before(async () => {
@@ -116,16 +118,16 @@ describe('DELETE /event/1', () => {
     await auth.signup(users[0]);
     const res = await auth.login(users[0]);
     token = res.body.token;
-    await createEvent(events[0], token);
+    await createStatement(statements[0], token);
   });
   
   it('should return 200 http code', async () => {
     const res = await chai.request(server)
-      .delete('/event/1')
+      .delete('/statement/1')
       .set({ token });
   
     res.should.have.status(200);
   })
 });
 
-module.exports = { createEvent };
+module.exports = { createStatement };

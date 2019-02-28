@@ -4,11 +4,18 @@ const chaiHttp = require('chai-http');
 const server = require('../../../app');
 const truncate = require('../../truncate');
 
-const users = require('../../fixtures/users');
 const auth = require('./auth');
+const users = require('../../fixtures/users');
+
 
 chai.use(chaiHttp);
 
+const createUser = async (user, token) => {
+  return chai.request(server)
+      .post('/user/')
+      .send({ user })
+      .set({ token });
+};
 
 describe('GET /users/', () => {
   before(async () => await truncate());
@@ -113,3 +120,5 @@ describe('DELETE /user/1', () => {
       res.should.have.status(200);
   })
 });
+
+module.exports = { createUser };

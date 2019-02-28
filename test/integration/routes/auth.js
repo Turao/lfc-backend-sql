@@ -40,6 +40,7 @@ const login = async user => {
     })
 }
 
+
 describe('POST /login/', () => {
   it('should return logged user info and token', async () => {
     const res = await login(users[0]);

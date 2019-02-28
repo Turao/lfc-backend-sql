@@ -8,8 +8,7 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        min: 8,
-        max: 64,
+        len: [1, 64],
         isAlphanumeric: true,
       },
     },
@@ -18,8 +17,7 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        min: 1,
-        max: 64,
+        len: [1, 64],
         isAlpha: true,
       },
     },
@@ -28,8 +26,7 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        min: 1,
-        max: 64,
+        len: [1, 64],
         isAlpha: true,
       },
     },
@@ -40,7 +37,7 @@ module.exports = function (sequelize, DataTypes) {
       unique: true,
       validate: {
         isEmail: true,
-        max: 64,
+        len: [1, 64],
       },
     },
     

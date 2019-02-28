@@ -6,8 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     type: DataTypes.TEXT,
     allowNull: false,
     validate: {
-      min: 10,
-      max: 256,
+      len: [10, 256],
     },
   },
 

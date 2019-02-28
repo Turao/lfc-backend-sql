@@ -1,6 +1,6 @@
 'use strict';
 
-const users = [
+module.exports = [
   {
     id: 1,
     username: 'dummy',
@@ -18,6 +18,4 @@ const users = [
     email: 'john@wick.com',
     password: 'john123',
   },
-]
-
-module.exports = users;
+];

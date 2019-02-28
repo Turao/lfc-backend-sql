@@ -6,30 +6,32 @@ const truncate = require('../../truncate');
 
 const auth = require('./auth');
 const users = require('../../fixtures/users');
+const { createUser } = require('./user');
 
-const organizations = require('../../fixtures/organizations');
-const { createOrganization } = require('./organization');
+const statements = require('../../fixtures/statements');
+const { createStatement } = require('./statement');
 
-const events = require('../../fixtures/events');
+const factchecks = require('../../fixtures/factchecks');
 
 
 chai.use(chaiHttp);
 
-const createEvent = async (event, token) => {
-  await createOrganization(organizations[0], token);
+const createFactCheck = async (factcheck, token) => {
+  await createUser(users[1], token);
+  await createStatement(statements[0], token);
   return chai.request(server)
-    .post('/event/')
-    .send({ event })
+    .post('/factcheck/')
+    .send({ factcheck })
     .set({ token });
 }
 
 
-describe('GET /events/', () => {
+describe('GET /factchecks/', () => {
   before(async () => await truncate());
 
-  it('should return all events', async () => {
+  it('should return all factchecks', async () => {
     const res = await chai.request(server)
-      .get('/events/')
+      .get('/factchecks/')
 
     res.should.have.status(200);
     res.should.be.json;
@@ -38,7 +40,7 @@ describe('GET /events/', () => {
 });
 
 
-describe('GET /event/1', () => {
+describe('GET /factcheck/1', () => {
   let token;
 
   before(async () => {
@@ -46,12 +48,12 @@ describe('GET /event/1', () => {
     await auth.signup(users[0]);
     const res = await auth.login(users[0]);
     token = res.body.token;
-    await createEvent(events[0], token);
+    await createFactCheck(factchecks[0], token);
   });
 
-  it('should return event of id 1', async () => {
+  it('should return factcheck of id 1', async () => {
     const res = await chai.request(server)
-      .get('/event/1')
+      .get('/factcheck/1')
       .set({ token });
 
     res.should.have.status(200);
@@ -61,7 +63,7 @@ describe('GET /event/1', () => {
 });
 
 
-describe('POST /event/', () => {
+describe('POST /factcheck/', () => {
   let token;
 
   before(async () => {
@@ -71,9 +73,9 @@ describe('POST /event/', () => {
     token = res.body.token;
   });
   
-  it('should return 201 http code (created) and the created event object', async () => {
-    const res = await createEvent(events[0], token);
-    
+  it('should return 201 http code (created) and the created factcheck object', async () => {
+    const res = await createFactCheck(factchecks[0], token);
+      
     res.should.have.status(201);
     res.should.be.json;
     res.body.should.be.a('object');
@@ -81,7 +83,7 @@ describe('POST /event/', () => {
 });
 
 
-describe('PUT /event/1', () => {
+describe('PUT /factcheck/1', () => {
   let token;
 
   before(async () => {
@@ -89,16 +91,16 @@ describe('PUT /event/1', () => {
     await auth.signup(users[0]);
     const res = await auth.login(users[0]);
     token = res.body.token;
-    await createEvent(events[0], token);
+    await createFactCheck(factchecks[0], token);
   });
   
-  it('should return 200 http code and the updated event object', async () => {
-    const updated_event = events[0];
-    updated_event.name = 'Updated Event Name';
+  it('should return 200 http code and the updated factcheck object', async () => {
+    const updated_factcheck = factchecks[0];
+    updated_factcheck.name = 'Updated FactCheck Name';
     
     const res = await chai.request(server)
-      .put('/event/1')
-      .send({ event: updated_event })
+      .put('/factcheck/1')
+      .send({ factcheck: updated_factcheck })
       .set({ token });
 
     res.should.have.status(200);
@@ -108,7 +110,7 @@ describe('PUT /event/1', () => {
 });
 
 
-describe('DELETE /event/1', () => {
+describe('DELETE /factcheck/1', () => {
   let token;
 
   before(async () => {
@@ -116,16 +118,16 @@ describe('DELETE /event/1', () => {
     await auth.signup(users[0]);
     const res = await auth.login(users[0]);
     token = res.body.token;
-    await createEvent(events[0], token);
+    await createFactCheck(factchecks[0], token);
   });
   
   it('should return 200 http code', async () => {
     const res = await chai.request(server)
-      .delete('/event/1')
+      .delete('/factcheck/1')
       .set({ token });
   
     res.should.have.status(200);
   })
 });
 
-module.exports = { createEvent };
+module.exports = { createFactCheck };
