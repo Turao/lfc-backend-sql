@@ -50,12 +50,15 @@ const AuthController = {
   },
 
   authorize: async (req, res, next) => {
-    jwt.verify(req.headers.token, 'serversecretkey', (error) => {
+    jwt.verify(req.headers.token, 'serversecretkey', (error, decoded) => {
       if (error) {
         res.sendStatus(401); // unauthorized access
       }
       else {
         // authorized
+        req.session = {
+          user: decoded
+        };
         next();
       }
     })
