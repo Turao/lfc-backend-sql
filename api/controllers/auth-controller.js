@@ -7,14 +7,7 @@ const UserModel = models.user;
 const UserController = require('./user-controller');
 
 const AuthController = {
-  signup: async (req, res) => {
-    try {
-      // delegate to user model create
-      UserController.create(req, res);
-    } catch (error) {
-      res.sendStatus(500); // internal error
-    }
-  },
+  signup: async (req, res) => UserController.create(req, res),
 
   login: async (req, res) => {
     try {
