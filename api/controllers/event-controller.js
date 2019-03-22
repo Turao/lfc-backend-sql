@@ -1,5 +1,6 @@
 'use strict';
 
+const _ = require('underscore');
 const sequelize = require('sequelize');
 const models = require('../models/');
 const EventModel = models.event;
