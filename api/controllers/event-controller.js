@@ -6,12 +6,22 @@ const models = require('../models/');
 const EventModel = models.event;
 
 const EventController = {
-  getAll: async (_, res) => {
-    const events = await EventModel.findAll();
+  get: async (req, res) => {
+    const page = req.query.page ? req.query.page : 0;
+    const limit = req.query.limit ? req.query.limit : 10;
+    const sort = req.query.sort ? req.query.sort : 'createdAt';
+    const order = req.query.order ? req.query.order : 'DESC';
+
+    const events = await EventModel.findAll({
+      limit,
+      offset: page*limit,
+      order: [[sort, order]],
+    });
+
     res.json(events);
   },
 
-  get: async (req, res) => {
+  getById: async (req, res) => {
     const { id } = req.params;
     const event = await EventModel.findByPk(id, {
       include: ['organization', 'moderators', 'statements'],

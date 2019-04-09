@@ -5,12 +5,22 @@ const models = require('../models/');
 const FactCheckModel = models.factcheck;
 
 const FactCheckController = {
-  getAll: async (_, res) => {
-    const factchecks = await FactCheckModel.findAll();
+  get: async (req, res) => {
+    const page = req.query.page ? req.query.page : 0;
+    const limit = req.query.limit ? req.query.limit : 10;
+    const sort = req.query.sort ? req.query.sort : 'createdAt';
+    const order = req.query.order ? req.query.order : 'DESC';
+
+    const factchecks = await FactCheckModel.findAll({
+      limit,
+      offset: page*limit,
+      order: [[sort, order]],
+    });
+
     res.json(factchecks);
   },
 
-  get: async (req, res) => {
+  getById: async (req, res) => {
     const { id } = req.params;
     const factcheck = await FactCheckModel.findByPk(id, {
       include: ['statement', 'checker', 'moderator'],

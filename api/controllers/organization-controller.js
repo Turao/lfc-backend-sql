@@ -5,12 +5,22 @@ const models = require('../models/');
 const OrganizationModel = models.organization;
 
 const OrganizationController = {
-  getAll: async (_, res) => {
-    const organizations = await OrganizationModel.findAll();
+  get: async (req, res) => {
+    const page = req.query.page ? req.query.page : 0;
+    const limit = req.query.limit ? req.query.limit : 10;
+    const sort = req.query.sort ? req.query.sort : 'createdAt';
+    const order = req.query.order ? req.query.order : 'DESC';
+
+    const organizations = await OrganizationModel.findAll({
+      limit,
+      offset: page*limit,
+      order: [[sort, order]],
+    });
+
     res.json(organizations);
   },
 
-  get: async (req, res) => {
+  getById: async (req, res) => {
     const { id } = req.params;
     const organization = await OrganizationModel.findByPk(id, {
       include: ['events'],

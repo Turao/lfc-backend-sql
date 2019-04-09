@@ -5,13 +5,13 @@ const AuthController = require('../api/controllers/auth-controller');
 const EventController = require('../api/controllers/event-controller');
 
 // events
-router.get('/events/', EventController.getAll);
+router.get('/events/', EventController.get);
 
 // make sure user is authorized to use endpoint
 router.use('/event/', AuthController.authorize);
 
 // event
-router.get('/event/:id', EventController.get);
+router.get('/event/:id', EventController.getById);
 router.post('/event/', EventController.create);
 router.put('/event/:id', EventController.update);
 router.delete('/event/:id', EventController.destroy);

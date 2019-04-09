@@ -5,12 +5,22 @@ const models = require('../models/');
 const UserModel = models.user;
 
 const UserController = {
-  getAll: async (_, res) => {
-    const users = await UserModel.findAll();
+  get: async (req, res) => {
+    const page = req.query.page ? req.query.page : 0;
+    const limit = req.query.limit ? req.query.limit : 10;
+    const sort = req.query.sort ? req.query.sort : 'createdAt';
+    const order = req.query.order ? req.query.order : 'DESC';
+
+    const users = await UserModel.findAll({
+      limit,
+      offset: page*limit,
+      order: [[sort, order]],
+    });
+
     res.json(users);
   },
 
-  get: async (req, res) => {
+  getById: async (req, res) => {
     const { id } = req.params;
     const user = await UserModel.findByPk(id);
     if (user) {
