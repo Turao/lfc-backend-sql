@@ -16,6 +16,7 @@ const EventController = {
       limit,
       offset: page*limit,
       order: [[sort, order]],
+      include: ['organization', 'moderators', 'statements'],
     });
 
     res.json(events);

@@ -15,6 +15,7 @@ const StatementController = {
       limit,
       offset: page*limit,
       order: [[sort, order]],
+      include: ['politician', 'event', 'factchecks'],
     });
 
     res.json(statements);

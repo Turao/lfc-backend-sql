@@ -15,6 +15,7 @@ const FactCheckController = {
       limit,
       offset: page*limit,
       order: [[sort, order]],
+      include: ['statement', 'checker', 'moderator'],
     });
 
     res.json(factchecks);

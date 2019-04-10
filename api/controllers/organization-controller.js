@@ -15,6 +15,7 @@ const OrganizationController = {
       limit,
       offset: page*limit,
       order: [[sort, order]],
+      include: ['events'],
     });
 
     res.json(organizations);

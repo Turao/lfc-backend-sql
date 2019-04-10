@@ -15,6 +15,7 @@ const PartyController = {
       limit,
       offset: page*limit,
       order: [[sort, order]],
+      include: ['politicians'],
     });
 
     res.json(parties);
