@@ -53,6 +53,76 @@ const users = [
     createdAt: new Date(),
     updatedAt: new Date(),
   },
+
+  {
+    username: 'bond',
+    firstName: 'James',
+    lastName: 'Bond',
+    email: 'james@bond.com',
+    password: 'bond123',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+
+  {
+    username: 'john',
+    firstName: 'John',
+    lastName: 'Doe',
+    email: 'john@doe.com',
+    password: 'john123',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+
+  {
+    username: 'bart',
+    firstName: 'Bart',
+    lastName: 'Simpson',
+    email: 'bart@simpson.com',
+    password: 'bart123',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+
+  {
+    username: 'homer',
+    firstName: 'Homere',
+    lastName: 'Simpson',
+    email: 'homer@simpson.com',
+    password: 'homer123',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+
+  {
+    username: 'lisa',
+    firstName: 'Lisa',
+    lastName: 'Simpson',
+    email: 'lisa@simpson.com',
+    password: 'lisa123',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+
+  {
+    username: 'marge',
+    firstName: 'Marge',
+    lastName: 'Simpson',
+    email: 'marge@simpson.com',
+    password: 'marge123',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+
+  {
+    username: 'maggie',
+    firstName: 'Maggie',
+    lastName: 'Simpson',
+    email: 'maggie@simpson.com',
+    password: 'maggie123',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
 ];
 
 module.exports = {
