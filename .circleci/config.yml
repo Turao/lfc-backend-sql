@@ -5,7 +5,7 @@ jobs:
   build:
     docker:
       # language image
-      - image: circleci/node:latest
+      - image: circleci/node:lts
 
     steps:
       - checkout
@@ -17,7 +17,7 @@ jobs:
   test:
     docker:
       # language image (primary container)
-      - image: circleci/node:latest
+      - image: circleci/node:lts
         environment:
           PG_HOST: localhost
           PG_USER: psuser
