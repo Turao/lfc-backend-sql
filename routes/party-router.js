@@ -1,8 +1,10 @@
-const express = require('express');
+'use strict';
+
+import express from 'express';
 const router = express.Router();
 
-const AuthController = require('../api/controllers/auth-controller');
-const PartyController = require('../api/controllers/party-controller');
+import AuthController from '../api/controllers/auth';
+import PartyController from '../api/controllers/party';
 
 // parties
 router.get('/parties/', PartyController.get);
@@ -16,4 +18,4 @@ router.post('/party/', PartyController.create);
 router.put('/party/:id', PartyController.update);
 router.delete('/party/:id', PartyController.destroy);
 
-module.exports = router;
+export default router;

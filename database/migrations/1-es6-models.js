@@ -16,8 +16,8 @@ var Sequelize = require('sequelize');
 
 var info = {
     "revision": 1,
-    "name": "initial-migration",
-    "created": "2019-02-27T09:08:22.512Z",
+    "name": "es6-models",
+    "created": "2019-05-15T11:21:42.980Z",
     "comment": ""
 };
 
@@ -37,8 +37,7 @@ var migrationCommands = [{
                     "type": Sequelize.STRING,
                     "field": "name",
                     "validate": {
-                        "min": 1,
-                        "max": 64
+                        "len": [1, 64]
                     },
                     "allowNull": false
                 },
@@ -72,8 +71,7 @@ var migrationCommands = [{
                     "type": Sequelize.STRING,
                     "field": "name",
                     "validate": {
-                        "min": 1,
-                        "max": 64
+                        "len": [1, 64]
                     },
                     "allowNull": false
                 },
@@ -81,8 +79,7 @@ var migrationCommands = [{
                     "type": Sequelize.STRING,
                     "field": "abbreviation",
                     "validate": {
-                        "min": 1,
-                        "max": 64,
+                        "len": [1, 64],
                         "isAlpha": true
                     },
                     "allowNull": false
@@ -117,15 +114,14 @@ var migrationCommands = [{
                     "type": Sequelize.STRING,
                     "field": "name",
                     "validate": {
-                        "min": 1,
-                        "max": 64
+                        "len": [1, 64]
                     },
                     "allowNull": false
                 },
                 "date": {
                     "type": Sequelize.DATE,
                     "field": "date",
-                    "defaultValue": 1551258502422
+                    "defaultValue": 1557919302937
                 },
                 "createdAt": {
                     "type": Sequelize.DATE,
@@ -168,8 +164,7 @@ var migrationCommands = [{
                     "type": Sequelize.STRING,
                     "field": "username",
                     "validate": {
-                        "min": 8,
-                        "max": 64,
+                        "len": [1, 64],
                         "isAlphanumeric": true
                     },
                     "allowNull": false
@@ -178,8 +173,7 @@ var migrationCommands = [{
                     "type": Sequelize.STRING,
                     "field": "firstName",
                     "validate": {
-                        "min": 1,
-                        "max": 64,
+                        "len": [1, 64],
                         "isAlpha": true
                     },
                     "allowNull": false
@@ -188,8 +182,7 @@ var migrationCommands = [{
                     "type": Sequelize.STRING,
                     "field": "lastName",
                     "validate": {
-                        "min": 1,
-                        "max": 64,
+                        "len": [1, 64],
                         "isAlpha": true
                     },
                     "allowNull": false
@@ -199,7 +192,7 @@ var migrationCommands = [{
                     "field": "email",
                     "validate": {
                         "isEmail": true,
-                        "max": 64
+                        "len": [1, 64]
                     },
                     "unique": true,
                     "allowNull": false
@@ -260,15 +253,14 @@ var migrationCommands = [{
                     "type": Sequelize.TEXT,
                     "field": "content",
                     "validate": {
-                        "min": 10,
-                        "max": 256
+                        "len": [10, 256]
                     },
                     "allowNull": false
                 },
                 "date": {
                     "type": Sequelize.DATE,
                     "field": "date",
-                    "defaultValue": 1551258502430
+                    "defaultValue": 1557919302944
                 },
                 "createdAt": {
                     "type": Sequelize.DATE,
@@ -322,8 +314,7 @@ var migrationCommands = [{
                     "type": Sequelize.TEXT,
                     "field": "comment",
                     "validate": {
-                        "min": 10,
-                        "max": 256
+                        "len": [10, 256]
                     },
                     "allowNull": false
                 },
@@ -331,8 +322,7 @@ var migrationCommands = [{
                     "type": Sequelize.STRING,
                     "field": "source",
                     "validate": {
-                        "min": 10,
-                        "max": 256,
+                        "len": [10, 256],
                         "isUrl": true
                     },
                     "allowNull": false

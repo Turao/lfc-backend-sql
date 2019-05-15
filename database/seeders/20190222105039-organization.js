@@ -14,12 +14,12 @@ const organizations = [
   },
 ];
 
-module.exports = {
-  up: (queryInterface, Sequelize) => {
-      return queryInterface.bulkInsert('organizations', organizations, {});
-  },
-
-  down: (queryInterface, Sequelize) => {
-      return queryInterface.bulkDelete('organizations', null, {});
-  }
+const up = (queryInterface, Sequelize) => {
+  return queryInterface.bulkInsert('organizations', organizations, {});
 };
+
+const down = (queryInterface, Sequelize) => {
+  return queryInterface.bulkDelete('organizations', null, {});
+};
+
+export { up, down };

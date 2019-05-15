@@ -23,12 +23,16 @@ const parties = [
   },
 ];
 
-module.exports = {
-  up: (queryInterface, Sequelize) => {
-      return queryInterface.bulkInsert('parties', parties, {});
-  },
-
-  down: (queryInterface, Sequelize) => {
-      return queryInterface.bulkDelete('parties', null, {});
+const up = (queryInterface, Sequelize) => {
+  try {
+    return queryInterface.bulkInsert('parties', parties, {});
+  } catch (erro) {
+    console.trace(error);
   }
 };
+
+const down = (queryInterface, Sequelize) => {
+  return queryInterface.bulkDelete('parties', null, {});
+};
+
+export { up, down };

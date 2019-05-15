@@ -1,11 +1,12 @@
-const map = require('lodash/map');
-const models = require('../api/models');
+import map from 'lodash/map';
+import { sequelize } from '../api/models';
+const models = sequelize.models;
 
-module.exports = async function truncate() {
+export default async function truncate() {
   return await Promise.all(
-    map(Object.keys(models), (key) => {
-      if (['sequelize', 'Sequelize'].includes(key)) return null;
-      return models[key].destroy({ where: {}, force: true });
+    map(Object.keys(models), model => {
+      if (['sequelize', 'Sequelize'].includes(model)) return null;
+      return models[model].destroy({ where: {}, force: true });
     })
   );
 }

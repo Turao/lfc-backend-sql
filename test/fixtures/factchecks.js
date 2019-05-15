@@ -1,9 +1,9 @@
 'use strict';
 
-const users = require('./users');
-const statements = require('./statements');
+import users from './users';
+import statements from './statements';
 
-module.exports = [
+export default [
   {
     id: 1,
     comment: 'Some Random Organization',

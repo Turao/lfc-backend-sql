@@ -4,9 +4,11 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('lfc-sql:server');
-var http = require('http');
+import app from '../app';
+import _debug from 'debug';
+const debug = _debug('lfc-sql:server');
+import http from 'http';
+
 
 /**
  * Get port from environment and store in Express.

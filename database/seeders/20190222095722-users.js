@@ -1,7 +1,6 @@
 'use strict';
 
-const models = require('../../api/models');
-const UserModel = models.user;
+import { sequelize } from '../../api/models';
 
 const users = [
   {
@@ -125,12 +124,12 @@ const users = [
   },
 ];
 
-module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    return UserModel.bulkCreate(users, { individualHooks: true });
-  },
-
-  down: (queryInterface, Sequelize) => {
-      return queryInterface.bulkDelete('users', null, {});
-  }
+const up = async (queryInterface, Sequelize) => {
+  return sequelize.models.user.bulkCreate(users, { individualHooks: true });
 };
+
+const down = (queryInterface, Sequelize) => {
+  return queryInterface.bulkDelete('users', null, {});
+};
+
+export { up, down };

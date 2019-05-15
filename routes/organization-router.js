@@ -1,8 +1,10 @@
-const express = require('express');
+'use strict';
+
+import express from 'express';
 const router = express.Router();
 
-const AuthController = require('../api/controllers/auth-controller');
-const OrganizationController = require('../api/controllers/organization-controller');
+import AuthController from '../api/controllers/auth';
+import OrganizationController from '../api/controllers/organization';
 
 // organizations
 router.get('/organizations/', OrganizationController.get);
@@ -16,4 +18,4 @@ router.post('/organization/', OrganizationController.create);
 router.put('/organization/:id', OrganizationController.update);
 router.delete('/organization/:id', OrganizationController.destroy);
 
-module.exports = router;
+export default router;

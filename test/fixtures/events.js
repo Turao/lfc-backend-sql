@@ -1,8 +1,8 @@
 'use strict';
 
-const organizations = require('./organizations');
+import organizations from './organizations';
 
-module.exports = [
+export default [
   {
     id: 1,
     name: '2020 US Elections',

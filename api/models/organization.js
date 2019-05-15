@@ -1,20 +1,28 @@
 'use strict';
 
-module.exports = (sequelize, DataTypes) => {
-  const organization = sequelize.define('organization', {
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        len: [1, 64]
+import { Model, DataTypes } from 'sequelize';
+
+export default class Organization extends Model {
+  static init(sequelize) {
+    return super.init({
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [1, 64]
+        },
       },
     },
-    
-  });
+    {
+      sequelize,
+      modelName: 'organization',
+      tableName: 'organizations',
+    }
+    );
+  }
 
-  organization.associate = (models) => {
-    models.organization.hasMany(models.event);
-  };
+  static associate(sequelize) {
+    this.hasMany(sequelize.models.event);
+  }
 
-  return organization;
-};
+}

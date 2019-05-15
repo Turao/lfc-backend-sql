@@ -1,70 +1,86 @@
 'use strict';
 
-const bcrypt = require('bcrypt');
+import { Model, DataTypes } from 'sequelize';
+import bcrypt from 'bcrypt';
 
-module.exports = function (sequelize, DataTypes) {
-  const user = sequelize.define('user', {
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        len: [1, 64],
-        isAlphanumeric: true,
-      },
-    },
-    
-    firstName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        len: [1, 64],
-        isAlpha: true,
-      },
-    },
-    
-    lastName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        len: [1, 64],
-        isAlpha: true,
-      },
-    },
-    
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: true,
-        len: [1, 64],
-      },
-    },
-    
-    password: {
-      type: DataTypes.STRING,
-    },
-  },
-  {
-    defaultScope: {
-      attributes: { exclude: ['password'] },
-    },
-    
-    scopes: {
-      withPassword: {
-        attributes: {},
+class User extends Model {
+
+  static init(sequelize) {
+    const hashPassword = async (user) => {
+      if(user.changed('password')) {
+        user.password = await bcrypt.hash(user.password, 10)
       }
     }
-  });
+
+    return super.init({
+      // attributes
+      username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [1, 64],
+          isAlphanumeric: true,
+        },
+      },
+      
+      firstName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [1, 64],
+          isAlpha: true,
+        },
+      },
+      
+      lastName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [1, 64],
+          isAlpha: true,
+        },
+      },
+      
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          isEmail: true,
+          len: [1, 64],
+        },
+      },
+      
+      password: {
+        type: DataTypes.STRING,
+      },
+    },
+    {
+      sequelize,
+      modelName: 'user',
+      tableName: 'users',
+    
+      // options
+      defaultScope: {
+        attributes: { exclude: ['password'] },
+      },
+      
+      scopes: {
+        withPassword: {
+          attributes: {},
+        }
+      },
+
+      hooks: {
+        beforeCreate: hashPassword,
+        beforeUpdate: hashPassword,
+      }
+    });
+  }
   
-  const hashPassword = async function (instance, _) {
-    if(instance.changed('password')) {
-      instance.password = await bcrypt.hash(instance.password, 10);
-    };
-  };
-  
-  user.beforeCreate(hashPassword);
-  user.beforeUpdate(hashPassword);
-  
-  return user;
-};
+  async verifyPassword (password) {
+    return await bcrypt.compare(password, this.password);
+  }
+}
+
+export default User;

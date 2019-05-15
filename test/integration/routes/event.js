@@ -1,16 +1,17 @@
-const chai = require('chai');
+import chai from 'chai';
 const should = chai.should();
-const chaiHttp = require('chai-http');
-const server = require('../../../app');
-const truncate = require('../../truncate');
 
-const auth = require('./auth');
-const users = require('../../fixtures/users');
+import chaiHttp from 'chai-http';
+import server from '../../../app';
+import truncate from '../../truncate';
 
-const organizations = require('../../fixtures/organizations');
-const { createOrganization } = require('./organization');
+import { login, signup } from './auth';
+import users from '../../fixtures/users';
 
-const events = require('../../fixtures/events');
+import organizations from '../../fixtures/organizations'
+import { createOrganization } from './organization'
+
+import events from '../../fixtures/events';
 
 
 chai.use(chaiHttp);
@@ -43,8 +44,8 @@ describe('GET /event/1', () => {
 
   before(async () => {
     await truncate();
-    await auth.signup(users[0]);
-    const res = await auth.login(users[0]);
+    await signup(users[0]);
+    const res = await login(users[0]);
     token = res.body.token;
     await createEvent(events[0], token);
   });
@@ -66,8 +67,8 @@ describe('POST /event/', () => {
 
   before(async () => {
     await truncate();
-    await auth.signup(users[0]);
-    const res = await auth.login(users[0]);
+    await signup(users[0]);
+    const res = await login(users[0]);
     token = res.body.token;
   });
   
@@ -86,8 +87,8 @@ describe('PUT /event/1', () => {
 
   before(async () => {
     await truncate();
-    await auth.signup(users[0]);
-    const res = await auth.login(users[0]);
+    await signup(users[0]);
+    const res = await login(users[0]);
     token = res.body.token;
     await createEvent(events[0], token);
   });
@@ -113,8 +114,8 @@ describe('DELETE /event/1', () => {
 
   before(async () => {
     await truncate();
-    await auth.signup(users[0]);
-    const res = await auth.login(users[0]);
+    await signup(users[0]);
+    const res = await login(users[0]);
     token = res.body.token;
     await createEvent(events[0], token);
   });
@@ -128,4 +129,4 @@ describe('DELETE /event/1', () => {
   })
 });
 
-module.exports = { createEvent };
+export { createEvent };

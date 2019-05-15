@@ -1,17 +1,18 @@
-const chai = require('chai');
+import chai from 'chai';
 const should = chai.should();
-const chaiHttp = require('chai-http');
-const server = require('../../../app');
-const truncate = require('../../truncate');
 
-const auth = require('./auth');
-const users = require('../../fixtures/users');
-const { createUser } = require('./user');
+import chaiHttp from 'chai-http';
+import server from '../../../app';
+import truncate from '../../truncate';
 
-const events = require('../../fixtures/events');
-const { createEvent } = require('./event');
+import { login, signup } from './auth';
+import users from '../../fixtures/users';
+import { createUser } from './user';
 
-const statements = require('../../fixtures/statements');
+import events from '../../fixtures/events';
+import { createEvent } from './event';
+
+import statements from '../../fixtures/statements';
 
 
 chai.use(chaiHttp);
@@ -45,8 +46,8 @@ describe('GET /statement/1', () => {
 
   before(async () => {
     await truncate();
-    await auth.signup(users[0]);
-    const res = await auth.login(users[0]);
+    await signup(users[0]);
+    const res = await login(users[0]);
     token = res.body.token;
     await createStatement(statements[0], token);
   });
@@ -68,8 +69,8 @@ describe('POST /statement/', () => {
 
   before(async () => {
     await truncate();
-    await auth.signup(users[0]);
-    const res = await auth.login(users[0]);
+    await signup(users[0]);
+    const res = await login(users[0]);
     token = res.body.token;
   });
   
@@ -88,8 +89,8 @@ describe('PUT /statement/1', () => {
 
   before(async () => {
     await truncate();
-    await auth.signup(users[0]);
-    const res = await auth.login(users[0]);
+    await signup(users[0]);
+    const res = await login(users[0]);
     token = res.body.token;
     await createStatement(statements[0], token);
   });
@@ -115,8 +116,8 @@ describe('DELETE /statement/1', () => {
 
   before(async () => {
     await truncate();
-    await auth.signup(users[0]);
-    const res = await auth.login(users[0]);
+    await signup(users[0]);
+    const res = await login(users[0]);
     token = res.body.token;
     await createStatement(statements[0], token);
   });
@@ -130,4 +131,4 @@ describe('DELETE /statement/1', () => {
   })
 });
 
-module.exports = { createStatement };
+export { createStatement };

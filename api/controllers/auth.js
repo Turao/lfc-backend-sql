@@ -1,15 +1,18 @@
 'use strict';
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 
-const models = require('../models/');
-const UserModel = models.user;
-const UserController = require('./user-controller');
+import jwt from 'jsonwebtoken';
 
-const AuthController = {
-  signup: async (req, res) => UserController.create(req, res),
+import UserModel from '../models/user';
+import UserController from './user';
 
-  login: async (req, res) => {
+
+class AuthController {
+  async signup(req, res) {
+    await UserController.create(req, res);
+  }
+
+
+  async login(req, res) {
     try {
       const { user } = req.body;
       const userFound = await UserModel.scope('withPassword').findOne({
@@ -17,7 +20,7 @@ const AuthController = {
           email: user.email,
         },
       });
-      const isSamePassword = await bcrypt.compare(user.password, userFound.password);
+      const isSamePassword = userFound.verifyPassword(user.password)
 
       // do not send the password back to the user!
       userFound.password = undefined;
@@ -40,9 +43,10 @@ const AuthController = {
       console.error(error);
       res.sendStatus(500); // internal error
     }
-  },
+  }
 
-  authorize: async (req, res, next) => {
+
+  async authorize(req, res, next) {
     jwt.verify(req.headers.token, 'serversecretkey', (error, decoded) => {
       if (error) {
         res.sendStatus(401); // unauthorized access
@@ -55,8 +59,8 @@ const AuthController = {
         next();
       }
     })
-  },
+  }
 
-};
+}
 
-module.exports = AuthController;
+export default new AuthController();

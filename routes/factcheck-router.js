@@ -1,8 +1,10 @@
-const express = require('express');
+'use strict';
+
+import express from 'express';
 const router = express.Router();
 
-const AuthController = require('../api/controllers/auth-controller');
-const FactCheckController = require('../api/controllers/factcheck-controller');
+import AuthController from '../api/controllers/auth';
+import FactCheckController from '../api/controllers/factcheck';
 
 // factchecks
 router.get('/factchecks/', FactCheckController.get);
@@ -16,4 +18,4 @@ router.post('/factcheck/', FactCheckController.create);
 router.put('/factcheck/:id', FactCheckController.update);
 router.delete('/factcheck/:id', FactCheckController.destroy);
 
-module.exports = router;
+export default router;

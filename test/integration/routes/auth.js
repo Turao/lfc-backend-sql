@@ -1,10 +1,11 @@
-const chai = require('chai');
+import chai from 'chai';
 const should = chai.should();
-const chaiHttp = require('chai-http');
-const server = require('../../../app');
-const truncate = require('../../truncate');
 
-const users = require('../../fixtures/users');
+import chaiHttp from 'chai-http';
+import server from '../../../app';
+import truncate from '../../truncate';
+
+import users from '../../fixtures/users';
 
 chai.use(chaiHttp);
 
@@ -53,4 +54,5 @@ describe('POST /login/', () => {
   })
 });
 
-module.exports = { login, signup };
+
+export { login, signup };

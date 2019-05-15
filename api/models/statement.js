@@ -1,38 +1,49 @@
 'use strict';
 
-module.exports = (sequelize, DataTypes) => {
-  const statement = sequelize.define('statement', {
-  content: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-    validate: {
-      len: [10, 256],
+import { Model, DataTypes } from 'sequelize';
+
+export default class Statement extends Model {
+  static init(sequelize) {
+    return super.init({
+      content: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+        validate: {
+          len: [10, 256],
+        },
+      },
+    
+      date: {
+        type: DataTypes.DATE,
+        defaultValue: Date.now(),
+      },
     },
-  },
-
-  date: {
-    type: DataTypes.DATE,
-    defaultValue: Date.now(),
-  },
-  
-});
-
-statement.associate = (models) => {
-  models.statement.belongsTo(models.user, {
-    as: 'politician',
-    onDelete: 'CASCADE',
-    foreignKey: {
-      allowNull: false,
+    {
+      sequelize,
+      modelName: 'statement',
+      tableName: 'statements',
     }
-  });
-  models.statement.belongsTo(models.event, {
-    onDelete: 'CASCADE',
-    foreignKey: {
-      allowNull: false,
-    }
-  });
-  models.statement.hasMany(models.factcheck);
-};
+    );
+  }
 
-return statement
-};
+
+  static associate(sequelize) {
+    this.belongsTo(sequelize.models.user, {
+      as: 'politician',
+      onDelete: 'CASCADE',
+      foreignKey: {
+        allowNull: false,
+      },
+    });
+    
+    this.belongsTo(sequelize.models.event, {
+      onDelete: 'CASCADE',
+      foreignKey: {
+        allowNull: false,
+      },
+    });
+    
+    this.hasMany(sequelize.models.factcheck);
+  }
+
+}

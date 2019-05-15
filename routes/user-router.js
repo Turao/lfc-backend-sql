@@ -1,8 +1,10 @@
-const express = require('express');
+'use strict';
+
+import express from 'express';
 const router = express.Router();
 
-const AuthController = require('../api/controllers/auth-controller');
-const UserController = require('../api/controllers/user-controller');
+import AuthController from '../api/controllers/auth';
+import UserController from '../api/controllers/user';
 
 // users
 router.get('/users/', UserController.get);
@@ -16,4 +18,4 @@ router.post('/user/', UserController.create);
 router.put('/user/:id', UserController.update);
 router.delete('/user/:id', UserController.destroy);
 
-module.exports = router;
+export default router;

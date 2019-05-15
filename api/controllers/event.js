@@ -1,12 +1,11 @@
 'use strict';
 
-const _ = require('underscore');
-const sequelize = require('sequelize');
-const models = require('../models/');
-const EventModel = models.event;
+import sequelize from 'sequelize';
+import EventModel from '../models/event';
 
-const EventController = {
-  get: async (req, res) => {
+
+class EventController {
+  async get (req, res) {
     const page = req.query.page ? req.query.page : 0;
     const limit = req.query.limit ? req.query.limit : 10;
     const sort = req.query.sort ? req.query.sort : 'createdAt';
@@ -20,9 +19,10 @@ const EventController = {
     });
 
     res.json(events);
-  },
+  }
 
-  getById: async (req, res) => {
+
+  async getById (req, res) {
     const { id } = req.params;
     const event = await EventModel.findByPk(id, {
       include: ['organization', 'moderators', 'statements'],
@@ -32,9 +32,10 @@ const EventController = {
     } else {
       res.sendStatus(404); // not found
     }
-  },
+  }
 
-  create: async (req, res) => {
+
+  async create (req, res) {
     const { event } = req.body;
     try {
       const created = await EventModel.create(event);
@@ -47,9 +48,10 @@ const EventController = {
         res.sendStatus(500); // internal error
       }
     }
-  },
+  }
 
-  update: async (req, res) => {
+
+  async update (req, res) {
     const { event } = req.body;
     try {
       const updated = await EventModel.update(event, {
@@ -68,9 +70,10 @@ const EventController = {
         res.sendStatus(500); // internal error
       }
     }
-  },
+  }
 
-  destroy: async (req, res) => {
+
+  async destroy (req, res) {
     const { id } = req.params;
     const found = await EventModel.findByPk(id);
     if (found) {
@@ -84,7 +87,8 @@ const EventController = {
     } else {
       res.sendStatus(404); // not found
     }
-  },
+  }
+
 };
 
-module.exports = EventController;
+export default new EventController();

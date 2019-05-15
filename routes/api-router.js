@@ -1,20 +1,27 @@
-const express = require('express');
+'use strict';
+
+import express from 'express';
 const router = express.Router();
 
-const AuthRouter = require('./auth-router');
-const EventRouter = require('./event-router');
-const FactCheckRouter = require('./factcheck-router');
-const OrganizationRouter = require('./organization-router');
-const PartyRouter = require('./party-router');
-const StatementRouter = require('./statement-router');
-const UserRouter = require('./user-router');
-
+import AuthRouter from './auth-router';
 router.use('/', AuthRouter);
+
+import EventRouter from './event-router';
 router.use('/', EventRouter);
+
+import FactCheckRouter from './factcheck-router';
 router.use('/', FactCheckRouter);
+
+import OrganizationRouter from './organization-router';
 router.use('/', OrganizationRouter);
+
+import PartyRouter from './party-router';
 router.use('/', PartyRouter);
+
+import StatementRouter from './statement-router';
 router.use('/', StatementRouter);
+
+import UserRouter from './user-router';
 router.use('/', UserRouter);
 
-module.exports = router;
+export default router;

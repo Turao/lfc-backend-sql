@@ -1,8 +1,10 @@
-const express = require('express');
+'use strict';
+
+import express from 'express';
 const router = express.Router();
 
-const AuthController = require('../api/controllers/auth-controller');
-const EventController = require('../api/controllers/event-controller');
+import AuthController from '../api/controllers/auth';
+import EventController from '../api/controllers/event';
 
 // events
 router.get('/events/', EventController.get);
@@ -16,4 +18,4 @@ router.post('/event/', EventController.create);
 router.put('/event/:id', EventController.update);
 router.delete('/event/:id', EventController.destroy);
 
-module.exports = router;
+export default router;

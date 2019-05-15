@@ -1,38 +1,38 @@
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
-const Sequelize = require('sequelize');
-const basename = path.basename(__filename);
+import Sequelize from 'sequelize';
+
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../../config/database.json')[env];
-const db = {};
+import config from '../../config/database';
 
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
+const sequelize = new Sequelize(config[env].database, config[env].username, config[env].password, config[env]);
 
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
-  })
-  .forEach(file => {
-    const model = sequelize['import'](path.join(__dirname, file));
-    db[model.name] = model;
-  });
 
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-  // sequelize.sync();
-});
+// load models
+import Event from './event';
+import FactCheck from './factcheck';
+import Organization from './organization';
+import Party from './party';
+import Statement from './statement';
+import User from './user';
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+const models = {
+  Event,
+  FactCheck,
+  Organization,
+  Party,
+  Statement,
+  User,
+};
 
-module.exports = db;
+// initalize models on database
+Object.values(models).forEach(model => model = model.init(sequelize))
+
+// run associate function if exists
+// ie create relationships in the ORM
+Object.values(models)
+      .filter(model => typeof model.associate === 'function')
+      .forEach(model => model.associate(sequelize))
+
+
+export { sequelize };

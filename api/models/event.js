@@ -1,32 +1,41 @@
 'use strict';
 
-module.exports = (sequelize, DataTypes) => {
-  const event = sequelize.define('event', {
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        len: [1, 64],
+import { Model, DataTypes } from 'sequelize';
+
+export default class Event extends Model {
+  static init(sequelize) {
+    return super.init({
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [1, 64],
+        },
+      },
+      
+      date: {
+        type: DataTypes.DATE,
+        defaultValue: Date.now(),
       },
     },
-    
-    date: {
-      type: DataTypes.DATE,
-      defaultValue: Date.now(),
-    },
-    
-  });
+    {
+      sequelize,
+      modelName: 'event',
+      tableName: 'events',
+    }
+    );
+  }
 
-  event.associate = (models) => {
-    models.event.belongsTo(models.organization, {
+  static associate(sequelize) {
+    this.belongsTo(sequelize.models.organization, {
       onDelete: 'CASCADE',
       foreignKey: {
         allowNull: false,
       }
     });
-    models.event.hasMany(models.user, { as: 'moderators' });
-    models.event.hasMany(models.statement);
-  };
 
-  return event;
-};
+    this.hasMany(sequelize.models.user, { as: 'moderators' });
+    this.hasMany(sequelize.models.statement);
+  }
+
+}

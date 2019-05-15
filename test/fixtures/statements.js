@@ -1,9 +1,9 @@
 'use strict';
 
-const users = require('./users');
-const events = require('./events');
+import users from './users';
+import events from './events';
 
-module.exports = [
+export default [
   {
     id: 1,
     content: 'My party name',

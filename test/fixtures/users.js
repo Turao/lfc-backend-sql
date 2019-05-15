@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = [
+export default [
   {
     id: 1,
     username: 'dummy',

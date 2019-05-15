@@ -1,42 +1,44 @@
 'use strict';
 
-const sequelize = require('sequelize');
-const models = require('../models/');
-const PartyModel = models.party;
+import sequelize from 'sequelize';
+import FactCheckModel from '../models/factcheck';
 
-const PartyController = {
-  get: async (req, res) => {
+
+class FactCheckController {
+  async get (req, res) {
     const page = req.query.page ? req.query.page : 0;
     const limit = req.query.limit ? req.query.limit : 10;
     const sort = req.query.sort ? req.query.sort : 'createdAt';
     const order = req.query.order ? req.query.order : 'DESC';
 
-    const parties = await PartyModel.findAll({
+    const factchecks = await FactCheckModel.findAll({
       limit,
       offset: page*limit,
       order: [[sort, order]],
-      include: ['politicians'],
+      include: ['statement', 'checker', 'moderator'],
     });
 
-    res.json(parties);
-  },
+    res.json(factchecks);
+  }
 
-  getById: async (req, res) => {
+
+  async getById (req, res) {
     const { id } = req.params;
-    const party = await PartyModel.findByPk(id, {
-      include: ['politicians'],
+    const factcheck = await FactCheckModel.findByPk(id, {
+      include: ['statement', 'checker', 'moderator'],
     });
-    if (party) {
-      res.json(party);
+    if (factcheck) {
+      res.json(factcheck);
     } else {
       res.sendStatus(404); // not found
     }
-  },
+  }
 
-  create: async (req, res) => {
-    const { party } = req.body;
+
+  async create (req, res) {
+    const { factcheck } = req.body;
     try {
-      const created = await PartyModel.create(party);
+      const created = await FactCheckModel.create(factcheck);
       res.status(201).json(created);
     } catch (error) {
       console.error(error);
@@ -46,12 +48,13 @@ const PartyController = {
         res.sendStatus(500); // internal error
       }
     }
-  },
+  }
 
-  update: async (req, res) => {
-    const { party } = req.body;
+
+  async update (req, res) {
+    const { factcheck } = req.body;
     try {
-      const updated = await PartyModel.update(party, {
+      const updated = await FactCheckModel.update(factcheck, {
         where: {
           id: req.params.id,
         },
@@ -67,11 +70,12 @@ const PartyController = {
         res.sendStatus(500); // internal error
       }
     }
-  },
+  }
 
-  destroy: async (req, res) => {
+
+  async destroy (req, res) {
     const { id } = req.params;
-    const found = await PartyModel.findByPk(id);
+    const found = await FactCheckModel.findByPk(id);
     if (found) {
       try {
         const destroyed = await found.destroy();
@@ -83,7 +87,8 @@ const PartyController = {
     } else {
       res.sendStatus(404); // not found
     }
-  },
+  }
+
 };
 
-module.exports = PartyController;
+export default new FactCheckController();

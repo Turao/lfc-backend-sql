@@ -1,12 +1,13 @@
-const chai = require('chai');
+import chai from 'chai';
 const should = chai.should();
-const chaiHttp = require('chai-http');
-const server = require('../../../app');
-const truncate = require('../../truncate');
 
-const auth = require('./auth');
-const users = require('../../fixtures/users');
-const parties = require('../../fixtures/parties');
+import chaiHttp from 'chai-http';
+import server from '../../../app';
+import truncate from '../../truncate';
+
+import { login, signup } from './auth';
+import users from '../../fixtures/users';
+import parties from '../../fixtures/parties';
 
 
 chai.use(chaiHttp);
@@ -38,8 +39,8 @@ describe('GET /party/1', () => {
 
   before(async () => {
     await truncate();
-    await auth.signup(users[0]);
-    const res = await auth.login(users[0]);
+    await signup(users[0]);
+    const res = await login(users[0]);
     token = res.body.token;
     await createParty(parties[0], token);
   });
@@ -61,8 +62,8 @@ describe('POST /party/', () => {
 
   before(async () => {
     await truncate();
-    await auth.signup(users[0]);
-    const res = await auth.login(users[0]);
+    await signup(users[0]);
+    const res = await login(users[0]);
     token = res.body.token;
   });
 
@@ -81,8 +82,8 @@ describe('PUT /party/1', () => {
 
   before(async () => {
     await truncate();
-    await auth.signup(users[0]);
-    const res = await auth.login(users[0]);
+    await signup(users[0]);
+    const res = await login(users[0]);
     token = res.body.token;
     await createParty(parties[0], token);
   });
@@ -109,8 +110,8 @@ describe('DELETE /party/1', () => {
 
   before(async () => {
     await truncate();
-    await auth.signup(users[0]);
-    const res = await auth.login(users[0]);
+    await signup(users[0]);
+    const res = await login(users[0]);
     token = res.body.token;
     await createParty(parties[0], token);
   });
@@ -124,4 +125,4 @@ describe('DELETE /party/1', () => {
   })
 });
 
-module.exports = { createParty };
+export { createParty };

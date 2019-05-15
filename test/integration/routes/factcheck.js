@@ -1,17 +1,17 @@
-const chai = require('chai');
+import chai from 'chai';
 const should = chai.should();
-const chaiHttp = require('chai-http');
-const server = require('../../../app');
-const truncate = require('../../truncate');
 
-const auth = require('./auth');
-const users = require('../../fixtures/users');
-const { createUser } = require('./user');
+import chaiHttp from 'chai-http';
+import server from '../../../app';
+import truncate from '../../truncate';
 
-const statements = require('../../fixtures/statements');
-const { createStatement } = require('./statement');
+import { login, signup } from './auth';
+import users from '../../fixtures/users';
+import { createUser } from './user';
 
-const factchecks = require('../../fixtures/factchecks');
+import statements from '../../fixtures/statements';
+import { createStatement } from './statement';
+import factchecks from '../../fixtures/factchecks';
 
 
 chai.use(chaiHttp);
@@ -45,8 +45,8 @@ describe('GET /factcheck/1', () => {
 
   before(async () => {
     await truncate();
-    await auth.signup(users[0]);
-    const res = await auth.login(users[0]);
+    await signup(users[0]);
+    const res = await login(users[0]);
     token = res.body.token;
     await createFactCheck(factchecks[0], token);
   });
@@ -68,8 +68,8 @@ describe('POST /factcheck/', () => {
 
   before(async () => {
     await truncate();
-    await auth.signup(users[0]);
-    const res = await auth.login(users[0]);
+    await signup(users[0]);
+    const res = await login(users[0]);
     token = res.body.token;
   });
   
@@ -88,8 +88,8 @@ describe('PUT /factcheck/1', () => {
 
   before(async () => {
     await truncate();
-    await auth.signup(users[0]);
-    const res = await auth.login(users[0]);
+    await signup(users[0]);
+    const res = await login(users[0]);
     token = res.body.token;
     await createFactCheck(factchecks[0], token);
   });
@@ -115,8 +115,8 @@ describe('DELETE /factcheck/1', () => {
 
   before(async () => {
     await truncate();
-    await auth.signup(users[0]);
-    const res = await auth.login(users[0]);
+    await signup(users[0]);
+    const res = await login(users[0]);
     token = res.body.token;
     await createFactCheck(factchecks[0], token);
   });
@@ -130,4 +130,4 @@ describe('DELETE /factcheck/1', () => {
   })
 });
 
-module.exports = { createFactCheck };
+export { createFactCheck };

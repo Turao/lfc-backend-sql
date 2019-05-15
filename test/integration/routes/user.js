@@ -1,11 +1,12 @@
-const chai = require('chai');
+import chai from 'chai';
 const should = chai.should();
-const chaiHttp = require('chai-http');
-const server = require('../../../app');
-const truncate = require('../../truncate');
 
-const auth = require('./auth');
-const users = require('../../fixtures/users');
+import chaiHttp from 'chai-http';
+import server from '../../../app';
+import truncate from '../../truncate';
+
+import { login, signup } from './auth';
+import users from '../../fixtures/users';
 
 
 chai.use(chaiHttp);
@@ -36,8 +37,8 @@ describe('GET /user/1', () => {
 
   before(async () => {
     await truncate();
-    await auth.signup(users[0]);
-    const res = await auth.login(users[0]);
+    await signup(users[0]);
+    const res = await login(users[0]);
     token = res.body.token;
   });
 
@@ -58,8 +59,8 @@ describe('POST /user/', () => {
 
   before(async () => {
     await truncate();
-    await auth.signup(users[0]);
-    const res = await auth.login(users[0]);
+    await signup(users[0]);
+    const res = await login(users[0]);
     token = res.body.token;
   });
 
@@ -81,8 +82,8 @@ describe('PUT /user/1', () => {
 
   before(async () => {
     await truncate();
-    await auth.signup(users[0]);
-    const res = await auth.login(users[0]);
+    await signup(users[0]);
+    const res = await login(users[0]);
     token = res.body.token;
   });
   
@@ -107,8 +108,8 @@ describe('DELETE /user/1', () => {
 
   before(async () => {
     await truncate();
-    await auth.signup(users[0]);
-    const res = await auth.login(users[0]);
+    await signup(users[0]);
+    const res = await login(users[0]);
     token = res.body.token;
   });
   
@@ -121,4 +122,4 @@ describe('DELETE /user/1', () => {
   })
 });
 
-module.exports = { createUser };
+export { createUser };

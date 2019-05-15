@@ -13,15 +13,17 @@
                 "name": {
                     "allowNull": false,
                     "validate": {
-                        "min": 1,
-                        "max": 64
+                        "len": [
+                            1,
+                            64
+                        ]
                     },
                     "field": "name",
                     "seqType": "Sequelize.STRING"
                 },
                 "date": {
                     "defaultValue": {
-                        "value": 1551258502422
+                        "value": 1557919302937
                     },
                     "field": "date",
                     "seqType": "Sequelize.DATE"
@@ -63,8 +65,10 @@
                 "comment": {
                     "allowNull": false,
                     "validate": {
-                        "min": 10,
-                        "max": 256
+                        "len": [
+                            10,
+                            256
+                        ]
                     },
                     "field": "comment",
                     "seqType": "Sequelize.TEXT"
@@ -72,8 +76,10 @@
                 "source": {
                     "allowNull": false,
                     "validate": {
-                        "min": 10,
-                        "max": 256,
+                        "len": [
+                            10,
+                            256
+                        ],
                         "isUrl": true
                     },
                     "field": "source",
@@ -149,8 +155,10 @@
                 "name": {
                     "allowNull": false,
                     "validate": {
-                        "min": 1,
-                        "max": 64
+                        "len": [
+                            1,
+                            64
+                        ]
                     },
                     "field": "name",
                     "seqType": "Sequelize.STRING"
@@ -181,8 +189,10 @@
                 "name": {
                     "allowNull": false,
                     "validate": {
-                        "min": 1,
-                        "max": 64
+                        "len": [
+                            1,
+                            64
+                        ]
                     },
                     "field": "name",
                     "seqType": "Sequelize.STRING"
@@ -190,8 +200,10 @@
                 "abbreviation": {
                     "allowNull": false,
                     "validate": {
-                        "min": 1,
-                        "max": 64,
+                        "len": [
+                            1,
+                            64
+                        ],
                         "isAlpha": true
                     },
                     "field": "abbreviation",
@@ -223,15 +235,17 @@
                 "content": {
                     "allowNull": false,
                     "validate": {
-                        "min": 10,
-                        "max": 256
+                        "len": [
+                            10,
+                            256
+                        ]
                     },
                     "field": "content",
                     "seqType": "Sequelize.TEXT"
                 },
                 "date": {
                     "defaultValue": {
-                        "value": 1551258502430
+                        "value": 1557919302944
                     },
                     "field": "date",
                     "seqType": "Sequelize.DATE"
@@ -284,8 +298,10 @@
                 "username": {
                     "allowNull": false,
                     "validate": {
-                        "min": 8,
-                        "max": 64,
+                        "len": [
+                            1,
+                            64
+                        ],
                         "isAlphanumeric": true
                     },
                     "field": "username",
@@ -294,8 +310,10 @@
                 "firstName": {
                     "allowNull": false,
                     "validate": {
-                        "min": 1,
-                        "max": 64,
+                        "len": [
+                            1,
+                            64
+                        ],
                         "isAlpha": true
                     },
                     "field": "firstName",
@@ -304,8 +322,10 @@
                 "lastName": {
                     "allowNull": false,
                     "validate": {
-                        "min": 1,
-                        "max": 64,
+                        "len": [
+                            1,
+                            64
+                        ],
                         "isAlpha": true
                     },
                     "field": "lastName",
@@ -316,7 +336,10 @@
                     "unique": true,
                     "validate": {
                         "isEmail": true,
-                        "max": 64
+                        "len": [
+                            1,
+                            64
+                        ]
                     },
                     "field": "email",
                     "seqType": "Sequelize.STRING"

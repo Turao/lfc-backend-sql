@@ -1,8 +1,10 @@
-const express = require('express');
+'use strict';
+
+import express from 'express';
 const router = express.Router();
 
-const AuthController = require('../api/controllers/auth-controller');
-const StatementController = require('../api/controllers/statement-controller');
+import AuthController from '../api/controllers/auth';
+import StatementController from '../api/controllers/statement';
 
 // statements
 router.get('/statements/', StatementController.get);
@@ -16,4 +18,4 @@ router.post('/statement/', StatementController.create);
 router.put('/statement/:id', StatementController.update);
 router.delete('/statement/:id', StatementController.destroy);
 
-module.exports = router;
+export default router;

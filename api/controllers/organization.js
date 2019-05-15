@@ -1,41 +1,44 @@
 'use strict';
 
-const sequelize = require('sequelize');
-const models = require('../models/');
-const UserModel = models.user;
+import sequelize from 'sequelize';
+import OrganizationModel from '../models/organization';
 
-const UserController = {
-  get: async (req, res) => {
+
+class OrganizationController {
+  async get (req, res) {
     const page = req.query.page ? req.query.page : 0;
     const limit = req.query.limit ? req.query.limit : 10;
     const sort = req.query.sort ? req.query.sort : 'createdAt';
     const order = req.query.order ? req.query.order : 'DESC';
 
-    const users = await UserModel.findAll({
+    const organizations = await OrganizationModel.findAll({
       limit,
       offset: page*limit,
       order: [[sort, order]],
+      include: ['events'],
     });
 
-    res.json(users);
-  },
+    res.json(organizations);
+  }
 
-  getById: async (req, res) => {
+
+  async getById (req, res) {
     const { id } = req.params;
-    const user = await UserModel.findByPk(id);
-    if (user) {
-      res.json(user);
+    const organization = await OrganizationModel.findByPk(id, {
+      include: ['events'],
+    });
+    if (organization) {
+      res.json(organization);
     } else {
       res.sendStatus(404); // not found
     }
-  },
+  }
 
-  create: async (req, res) => {
-    const { user } = req.body;
+
+  async create (req, res) {
+    const { organization } = req.body;
     try {
-      const created = await UserModel.create(user);
-      // override password bc model scope does not work with create
-      created.password = undefined;
+      const created = await OrganizationModel.create(organization);
       res.status(201).json(created);
     } catch (error) {
       console.error(error);
@@ -45,12 +48,13 @@ const UserController = {
         res.sendStatus(500); // internal error
       }
     }
-  },
+  }
 
-  update: async (req, res) => {
-    const { user } = req.body;
+
+  async update (req, res) {
+    const { organization } = req.body;
     try {
-      const updated = await UserModel.update(user, {
+      const updated = await OrganizationModel.update(organization, {
         where: {
           id: req.params.id,
         },
@@ -66,11 +70,11 @@ const UserController = {
         res.sendStatus(500); // internal error
       }
     }
-  },
+  }
 
-  destroy: async (req, res) => {
+  async destroy (req, res) {
     const { id } = req.params;
-    const found = await UserModel.findByPk(id);
+    const found = await OrganizationModel.findByPk(id);
     if (found) {
       try {
         const destroyed = await found.destroy();
@@ -82,7 +86,8 @@ const UserController = {
     } else {
       res.sendStatus(404); // not found
     }
-  },
+  }
+
 };
 
-module.exports = UserController;
+export default new OrganizationController();

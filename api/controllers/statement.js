@@ -1,42 +1,44 @@
 'use strict';
 
-const sequelize = require('sequelize');
-const models = require('../models/');
-const OrganizationModel = models.organization;
+import sequelize from 'sequelize';
+import StatementModel from '../models/statement';
 
-const OrganizationController = {
-  get: async (req, res) => {
+
+class StatementController {
+  async get (req, res) {
     const page = req.query.page ? req.query.page : 0;
     const limit = req.query.limit ? req.query.limit : 10;
     const sort = req.query.sort ? req.query.sort : 'createdAt';
     const order = req.query.order ? req.query.order : 'DESC';
 
-    const organizations = await OrganizationModel.findAll({
+    const statements = await StatementModel.findAll({
       limit,
       offset: page*limit,
       order: [[sort, order]],
-      include: ['events'],
+      include: ['politician', 'event', 'factchecks'],
     });
 
-    res.json(organizations);
-  },
+    res.json(statements);
+  }
 
-  getById: async (req, res) => {
+
+  async getById (req, res) {
     const { id } = req.params;
-    const organization = await OrganizationModel.findByPk(id, {
-      include: ['events'],
+    const statement = await StatementModel.findByPk(id, {
+      include: ['politician', 'event', 'factchecks'],
     });
-    if (organization) {
-      res.json(organization);
+    if (statement) {
+      res.json(statement);
     } else {
       res.sendStatus(404); // not found
     }
-  },
+  }
 
-  create: async (req, res) => {
-    const { organization } = req.body;
+
+  async create (req, res) {
+    const { statement } = req.body;
     try {
-      const created = await OrganizationModel.create(organization);
+      const created = await StatementModel.create(statement);
       res.status(201).json(created);
     } catch (error) {
       console.error(error);
@@ -46,12 +48,13 @@ const OrganizationController = {
         res.sendStatus(500); // internal error
       }
     }
-  },
+  }
 
-  update: async (req, res) => {
-    const { organization } = req.body;
+
+  async update (req, res) {
+    const { statement } = req.body;
     try {
-      const updated = await OrganizationModel.update(organization, {
+      const updated = await StatementModel.update(statement, {
         where: {
           id: req.params.id,
         },
@@ -67,11 +70,12 @@ const OrganizationController = {
         res.sendStatus(500); // internal error
       }
     }
-  },
+  }
 
-  destroy: async (req, res) => {
+
+  async destroy (req, res) {
     const { id } = req.params;
-    const found = await OrganizationModel.findByPk(id);
+    const found = await StatementModel.findByPk(id);
     if (found) {
       try {
         const destroyed = await found.destroy();
@@ -83,7 +87,8 @@ const OrganizationController = {
     } else {
       res.sendStatus(404); // not found
     }
-  },
+  }
+
 };
 
-module.exports = OrganizationController;
+export default new StatementController();
